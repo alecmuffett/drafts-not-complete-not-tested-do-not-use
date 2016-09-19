@@ -300,7 +300,7 @@ This tells you that process ID `1276` is an instance of `sshd`  which is listeni
 
 ## ---- Finish ----
 
-You should be good to go.
+You should be good to install actual programs (eg: webservers) on the server, configure them to listen on the named-onion-addresses, and amend `/etc/tor/torrc` to expose the relevant named-onion-address port-numbers to onionspace.
 
 ----
 
