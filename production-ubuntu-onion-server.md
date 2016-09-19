@@ -24,13 +24,9 @@ sudo -i
 apt-get install aptitude
 aptitude update
 aptitude upgrade
-aptitude install git tmux # check: these should be already installed?
-shutdown -r now
 ```
 
 ## Installing Tor
-
-Log in again and do: `sudo -i `
 
 In a browser elsewhere, retreive the instructions for installing Tor from https://www.torproject.org/docs/debian.html.en
 
@@ -70,17 +66,16 @@ The first couple of lines should probably now look like this:
 127.0.1.1       invalid invalid.invalid
 ```
 
-
 ## Install Local-Only Email
 ### (do it now, because package dependencies will bite you later)
 
 do:
 
 - `aptitude install postfix`
-  - select `local` delivery 
+  - select `Local only` delivery 
   - set the email hostname `invalid.invalid` - to match the above FQDN hack
 
-## Put the Tor configuration under revision control
+## Optional: Put the Tor configuration under revision control
 
 Because we all can make mistakes:
 
@@ -91,7 +86,7 @@ git add .
 git commit -m initial
 ```
 
-## Make Git shut up about Email addresses
+## Optional: Make Git shut up about Email addresses
 
 do: `env EDITOR=vi git config --global --edit`
 
@@ -257,7 +252,7 @@ root@invalid:~# grep zxd674r63j44zfj7.onion /etc/tor/torrc
 HiddenServicePort 80 zxd674r63j44zfj7.onion:80
 ```
 
-## Reboot
+## Reboot to apply all changes and new executables
 
 Do: `shutdown -r now`
 
