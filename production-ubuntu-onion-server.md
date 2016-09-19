@@ -1,5 +1,10 @@
 # Installing Onion Addresses on Ubuntu Server
 
+# ----
+# - THIS DOCUMENT IS INCOMPLETE AND HAS NOT BEEN REVIEWED -
+# - DO NOT USE THIS DOCUMENT OR YOU MAY BE CYBERSPANKED -
+# ----
+
 ## Install Ubuntu
 
 Follow the instructions to install Ubuntu Server.
