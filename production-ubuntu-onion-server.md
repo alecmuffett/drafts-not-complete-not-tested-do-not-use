@@ -287,7 +287,7 @@ There is a small risk here that bad system administrators will permit the conten
 Do:
 
 ```sh
-netstat -a --inet --program  | awk '$6=="LISTEN" && $4~/^\*/'
+sudo netstat -a --inet --program  | awk '$6=="LISTEN" && $4~/^\*/'
 ```
 This will print a list of network sockets which are listening to all local network interfaces simultaneously; something like:
 
