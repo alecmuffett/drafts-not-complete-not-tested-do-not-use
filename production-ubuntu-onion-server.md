@@ -114,6 +114,7 @@ Notes:
 - these are addresses in separate "/30" subnets of the DHCP address space
   - the DHCP address space is not routable in the same way as RFC1918 but is unlikely to clash with extant subnets
   - if this really upsets you, replace `169.254.255` with whatever, throughout the rest of this process
+    - we're just betting that your local DHCP administrator would rather lose a tooth than use `255` in a netaddr
 - we use the first usable address in each of separate "/30"-type subnets to inhibit routing and cross-contamination.
 - because of what we are trying to achieve we could perhaps try using "/31" pairs and treat them as point-to-point, but that would be complex and contentious, whereas this is vanilla networking.
 
