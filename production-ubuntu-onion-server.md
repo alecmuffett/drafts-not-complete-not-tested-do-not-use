@@ -1,5 +1,9 @@
 # Installing Onion Addresses on Ubuntu Server
 
+## Install Ubuntu
+
+Follow the instructions to install Ubuntu Server.
+
 Notes:
 
 - configure network interfaces carefully
@@ -8,7 +12,7 @@ Notes:
 - install security updates automatically
 - install "standard system utilities" and "OpenSSH server"
 
-# Initial Setup
+## Initial Setup
 
 Do:
 
@@ -21,7 +25,7 @@ aptitude install git tmux # check: these should be already installed?
 shutdown -r now
 ```
 
-# Installing Tor
+## Installing Tor
 
 Log in again and do: `sudo -i `
 
@@ -33,7 +37,7 @@ In a browser elsewhere, retreive the instructions for installing Tor from https:
 - Do the gpg thing
 - Do the tor installation
 
-# Check Tor Connectivity
+## Check Tor Connectivity
 
 Do this:
 
@@ -51,7 +55,7 @@ torsocks curl https://www.facebookcorewwwi.onion/si/proxy/ ; echo ""
 
 ...this should print: `onion`
 
-# Fake a Fully Qualified Domain Name for Email
+## Fake a Fully Qualified Domain Name for Email
 
 - edit `/etc/hosts`
 - add `invalid.invalid` as an alias for the existing `invalid` entry
@@ -64,8 +68,8 @@ The first couple of lines should probably now look like this:
 ```
 
 
-# Install Local-Only Email
-## Do it now, because package dependencies will bite you later
+## Install Local-Only Email
+### do it now, because package dependencies will bite you later
 
 do:
 
@@ -73,7 +77,7 @@ do:
   - select `local` delivery 
   - set the email hostname `invalid.invalid` - to match the above FQDN hack
 
-# Put the Tor configuration under revision control
+## Put the Tor configuration under revision control
 
 Because we all can make mistakes:
 
@@ -84,13 +88,13 @@ git add .
 git commit -m initial
 ```
 
-# Make Git shut up about Email addresses
+## Make Git shut up about Email addresses
 
 do: `env EDITOR=vi git config --global --edit`
 
 ...and either uncomment the relevant lines or fix it properly
 
-# constrain Tor SOCKS access to literally 127.0.0.1
+## Constrain Tor SOCKS access to literally 127.0.0.1
 
 edit `/etc/tor/torrc` and search for the SOCKSPolicy section; then insert:
 
@@ -99,7 +103,7 @@ SOCKSPolicy accept 127.0.0.1
 SOCKSPolicy reject *
 ```
 
-# Add Virtual Network Addresses to /etc/hosts (we do 4 as an example)
+## Add Virtual Network Addresses to /etc/hosts (we do 4 as an example)
 
 Notes:
 
@@ -119,7 +123,7 @@ Do: edit `/etc/hosts` and add the following (*verbatim* - these will be edited l
 169.254.255.241	osite3.onion
 ```
 
-# Disable IP Forwarding and Multihoming
+## Disable IP Forwarding and Multihoming
 
 Edit /etc/sysctl.conf and uncomment and set to 0 the following:
 
@@ -135,7 +139,7 @@ net.ipv4.conf.all.rp_filter=1
 ```
 *TODO(alecm) - check that rp_filter checks on the internal loopback offer the same value as strict destination multihoming*
 
-# Create Onion Addresses (we do 4 as an example)
+## Create Onion Addresses (we create 4 as an example)
 
 do: `vi /etc/tor/torrc`
 
@@ -154,13 +158,13 @@ HiddenServicePort 80 osite3.onion:80
 
 ...this should be safe since we're not actually running anything on port 80 yet.
 
-# Restart Tor
+## Restart Tor
 
 do: `/etc/init.d/tor restart`
 
 This will create the hidden service directories cited above, etc
 
-# Configure Virtual IP interfaces/addresses to map to the Onions 
+## Configure Virtual IP interfaces/addresses to map to the Onions 
 
 do: `cd /etc/network`
 
@@ -196,13 +200,13 @@ iface <INTERFACE>:3 inet static
   broadcast 169.254.255.243
 ```
 
-# Create the Virtual IP Addresses
+## Create the Virtual IP Addresses
 
 do: `ifup -a`
 
 then: `ifconfig -a` - and you should see the four new network interfaces
 
-# Tor Finalisation
+## Tor Finalisation
 
 Make a backup of the hosts file: `cp /etc/hosts /etc/hosts,backup`
 
@@ -244,11 +248,11 @@ root@invalid:~# grep zxd674r63j44zfj7.onion /etc/tor/torrc
 HiddenServicePort 80 zxd674r63j44zfj7.onion:80
 ```
 
-# Reboot
+## Reboot
 
 Do: `shutdown -r now`
 
-# The Story So Far...
+## The Story So Far...
 
 You now have a server which is configured with (up to) four onion addresses.
 
@@ -260,19 +264,34 @@ Also: applications which enforce access-control on the basis of source IP addres
 
 There is a small risk here that bad system administrators will permit the contents of (eg:) /var/lib/tor/oside0/hostname to get out of sync with either/both of `/etc/hosts` or `/etc/tor/torrc`.  So don't let that happen.
 
-# Install a Firewall
+## Install a Firewall
 
 **TO BE DONE**
 
-# Redirect DNS over Tor
+## Redirect DNS over Tor
 
 **TO BE DONE**
 
-# More Stuff?
+## More Stuff?
 
 **TO BE DONE**
 
-# ---- Finish ----
+## Check For Promiscuous Listeners
+
+Do:
+
+```sh
+netstat -a --inet --program  | awk '$6=="LISTEN" && $4~/^\*/'
+```
+This will print a list of network sockets which are listening to all local network interfaces simultaneously; something like:
+
+```
+tcp  0  0 *:ssh  *:*  LISTEN  1276/sshd
+```
+
+This tells you that process ID `1276` is an instance of `sshd`  which is listening to the `ssh` port on all network interfaces.  You may want to consider the security risks, and perhaps reconfigure this (and other) programs to listen only to specific, especially non-onion, network interfaces.
+
+## ---- Finish ----
 
 You should be good to go.
 
