@@ -64,15 +64,18 @@ The first couple of lines should probably now look like this:
 ```
 
 
-# Install Local-Only Email (do it now, because package dependencies)
+# Install Local-Only Email
+## Do it now, because package dependencies will bite you later
 
 do:
 
 - `aptitude install postfix`
-  - select local
-  - set the email hostname `invalid.invalid` - per the above hack
+  - select `local` delivery 
+  - set the email hostname `invalid.invalid` - to match the above FQDN hack
 
 # Put the Tor configuration under revision control
+
+Because we all can make mistakes:
 
 ```sh
 cd /etc/tor
