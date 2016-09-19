@@ -13,9 +13,9 @@ Notes:
 
 - configure network interfaces carefully
 - set the hostname to be `invalid` (verbatim)
-- install a personal account for sysadmin
+- install an account for the sysadmin
 - install security updates automatically
-- install "standard system utilities" and "OpenSSH server"
+- install both `standard system utilities` and (optionally) `OpenSSH server`
 
 ## Initial Setup
 
