@@ -69,7 +69,7 @@ The first couple of lines should probably now look like this:
 
 
 ## Install Local-Only Email
-### do it now, because package dependencies will bite you later
+### (do it now, because package dependencies will bite you later)
 
 do:
 
@@ -104,7 +104,7 @@ SOCKSPolicy reject *
 ```
 
 ## Add Virtual Network Addresses to /etc/hosts
-### we create 4 as an example
+### (we create 4 as an example)
 
 Notes:
 
@@ -141,7 +141,7 @@ net.ipv4.conf.all.rp_filter=1
 *TODO(alecm) - check that rp_filter checks on the internal loopback offer the same value as strict destination multihoming*
 
 ## Create Onion Addresses
-### we create 4 as an example
+### (we create 4 as an example)
 
 do: `vi /etc/tor/torrc`
 
