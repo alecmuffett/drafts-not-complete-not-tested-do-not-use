@@ -28,8 +28,8 @@ Log in again and do: `sudo -i `
 In a browser elsewhere, retreive the instructions for installing Tor from https://www.torproject.org/docs/debian.html.en
 
 - Configure the APT repositories for Tor
--- I recommend that you add the Tor repos to the end of config file
--- I am not sure whether it makes a difference, but there was weirdness, once
+  - I recommend that you add the Tor repos to the end of config file
+  - I am not sure whether it makes a difference, but there was weirdness, once
 - Do the gpg thing
 - Do the tor installation
 
@@ -69,8 +69,8 @@ The first couple of lines should probably now look like this:
 do:
 
 - `aptitude install postfix`
--- select local
--- set the email hostname `invalid.invalid` - per the above hack
+  - select local
+  - set the email hostname `invalid.invalid` - per the above hack
 
 # Put the Tor configuration under revision control
 
@@ -101,8 +101,8 @@ SOCKSPolicy reject *
 Notes:
 
 - these are addresses in separate "/30" subnets of the DHCP address space
--- the DHCP address space is not routable in the same way as RFC1918 but is unlikely to clash with extant subnets
--- if this really upsets you, replace `169.254.255` with whatever, throughout the rest of this process
+  - the DHCP address space is not routable in the same way as RFC1918 but is unlikely to clash with extant subnets
+  - if this really upsets you, replace `169.254.255` with whatever, throughout the rest of this process
 - we use the first usable address in each of separate "/30"-type subnets to inhibit routing and cross-contamination.
 - because of what we are trying to achieve we could perhaps try using "/31" pairs and treat them as point-to-point, but that would be complex and contentious, whereas this is vanilla networking.
 
