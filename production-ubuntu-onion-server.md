@@ -206,11 +206,11 @@ do: `ifup -a`
 
 then: `ifconfig -a` - and you should see the four new network interfaces
 
-## Tor Finalisation
+## Tor Finalisation - **THE GRAND RENAMING**
 
-Make a backup of the hosts file: `cp /etc/hosts /etc/hosts,backup`
+First, make a backup of the hosts file: `cp /etc/hosts /etc/hosts,backup`
 
-Run this script:
+Then: run this script:
 
 ```sh
 for odir in /var/lib/tor/osite?/ ; do
@@ -221,7 +221,7 @@ perl -pi~ -e "s/$oname.onion:/$oaddr:/" /etc/tor/torrc
 done
 ```
 
-Test the resolution of `osite0` (etc) into onion names:
+Then test the resolution of `osite0` (etc) into IPv4-equivalent onion names:
 
 ```sh
 ping -c 1 osite0
@@ -251,6 +251,8 @@ HiddenServicePort 80 zxd674r63j44zfj7.onion:80
 ## Reboot
 
 Do: `shutdown -r now`
+
+If you are unwilling to do this, at least restart Tor with: `/etc/init.d/tor restart` - otherwise you will not pick up the changes that we jut made to the `torrc` file.
 
 ## The Story So Far...
 
@@ -297,7 +299,15 @@ You should be good to go.
 
 # Notes
 
-## Those Network addresses - OMGWTFBBQ?
+## Putting 4 Onion Addresses on a Server? OMGWTFBBQ?
+
+Yeah, well, whatever. Someone is gonna want more than one, so I might as well do the subnet math for them now. 
+
+Yes there is advice to not run more than 1 onion address per machine that is attached to the internet. 
+
+Anyone who is *actually* worried about being deanonymised can skip the extra three.
+
+## Those DHCP IP Addresses? OMGWTFBBQ?
 
 Basically we have created four little subnets, each of which can hold a maximum of two computers, and in each of those subnets we are using only one address - see `*-addr-1`, below.
 
