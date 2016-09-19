@@ -312,7 +312,7 @@ Yeah, well, whatever. Someone is gonna want more than one, so I might as well do
 
 Yes there is advice to not run more than 1 onion address per machine that is attached to the internet. 
 
-Anyone who is *actually* worried about being deanonymised can skip the extra three.
+Anyone who is *actually* worried about being deanonymised can skip the extra three and install more systems.
 
 ## Those DHCP IP Addresses? OMGWTFBBQ?
 
