@@ -173,7 +173,11 @@ This will create the hidden service directories cited above, etc
 
 ## Configure Virtual IP interfaces/addresses to map to the Onions 
 
-edit: `/etc/network/interfaces` - inserting the following text, replacing <INTERFACE> with your "primary network interface" (eg: `eth0`, `wlan0`, `enp4s0`, ...) as cited in that file.
+edit: `/etc/network/interfaces` 
+
+- inserting the following text, replacing <INTERFACE> with your "primary network interface" 
+  - eg: `eth0`, `wlan0`, `enp4s0` - as cited in that file.
+  - TODO(alecm) - we could use dummy network interfaces dummy0:0 (etc) - but that requires extra setup?
 
 ```
 # osite0
