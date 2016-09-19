@@ -96,7 +96,7 @@ do: `env EDITOR=vi git config --global --edit`
 
 ## Constrain Tor SOCKS access to literally 127.0.0.1
 
-edit `/etc/tor/torrc` and search for the SOCKSPolicy section; then insert:
+edit: `/etc/tor/torrc` - and search for the SOCKSPolicy section; then insert:
 
 ```
 SOCKSPolicy accept 127.0.0.1
@@ -114,7 +114,7 @@ Notes:
 - we use the first usable address in each of separate "/30"-type subnets to inhibit routing and cross-contamination.
 - because of what we are trying to achieve we could perhaps try using "/31" pairs and treat them as point-to-point, but that would be complex and contentious, whereas this is vanilla networking.
 
-Do: edit `/etc/hosts` and add the following (*verbatim* - these will be edited later):
+Edit: `/etc/hosts` - and add the following (*verbatim* - these will be auto-edited later):
 
 ```
 # descending order of IP address
@@ -126,7 +126,7 @@ Do: edit `/etc/hosts` and add the following (*verbatim* - these will be edited l
 
 ## Disable IP Forwarding and Multihoming
 
-Edit /etc/sysctl.conf and uncomment and set to 0 the following:
+Edit: `/etc/sysctl.conf` - and uncomment and set to 0 the following:
 
 ```
 net.ipv4.ip_forward=0
@@ -143,17 +143,18 @@ net.ipv4.conf.all.rp_filter=1
 ## Create Onion Addresses
 ### (we create 4 as an example)
 
-do: `vi /etc/tor/torrc`
-
-Search for HiddenServiceDir section and insert the following (*verbatim* - these will be edited later): 
+Edit: `/etc/tor/torrc` - and search for HiddenServiceDir section, and insert the following (*verbatim* - these will be auto-edited later): 
 
 ```
 HiddenServiceDir /var/lib/tor/osite0/
 HiddenServicePort 80 osite0.onion:80
+
 HiddenServiceDir /var/lib/tor/osite1/
 HiddenServicePort 80 osite1.onion:80
+
 HiddenServiceDir /var/lib/tor/osite2/
 HiddenServicePort 80 osite2.onion:80
+
 HiddenServiceDir /var/lib/tor/osite3/
 HiddenServicePort 80 osite3.onion:80
 ```
@@ -168,9 +169,7 @@ This will create the hidden service directories cited above, etc
 
 ## Configure Virtual IP interfaces/addresses to map to the Onions 
 
-do: `cd /etc/network`
-
-...and edit the `interfaces` file, inserting the following. Replace <INTERFACE> with your "primary network interface" (eg: eth0, wlan0, enp4s0, ...) as cited in that file.
+edit: `/etc/network/interfaces` - inserting the following text, replacing <INTERFACE> with your "primary network interface" (eg: `eth0`, `wlan0`, `enp4s0`, ...) as cited in that file.
 
 ```
 # osite0
@@ -243,7 +242,7 @@ PING zxd674r63j44zfj7.onion (169.254.255.253) 56(84) bytes of data.
 rtt min/avg/max/mdev = 0.096/0.096/0.096/0.000 ms
 ```
 
-...demonstrating that `osite0` is now an alias for a hostname `zxd674r63j44zfj7.onion` - which itself is a name that is bound to a virtual interface on your machine, and to which `torrc` will forward connections:
+...demonstrating that `osite0` is now an alias for a hostname `zxd674r63j44zfj7.onion` - which itself is a name that is bound to a virtual interface on your machine, and to which `torrc` is now configured forward connections on port 80:
 
 ```
 root@invalid:~# grep zxd674r63j44zfj7.onion /etc/tor/torrc
@@ -276,11 +275,11 @@ There is a small risk here that bad system administrators will permit the conten
 
 **TO BE DONE**
 
-## More Stuff?
+## More Security Stuff TBD?
 
 **TO BE DONE**
 
-## Check For Promiscuous Listeners
+## Check For Promiscuous Network Listeners
 
 Do:
 
