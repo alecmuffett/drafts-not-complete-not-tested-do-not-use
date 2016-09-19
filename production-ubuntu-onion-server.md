@@ -7,9 +7,7 @@
 
 ## Install Ubuntu
 
-Follow the instructions to install Ubuntu Server.
-
-Notes:
+Follow the instructions to install Ubuntu Server.  Notes:
 
 - configure network interfaces carefully
 - set the hostname to be `invalid` (verbatim)
