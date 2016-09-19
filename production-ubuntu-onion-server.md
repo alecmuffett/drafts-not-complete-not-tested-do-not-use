@@ -111,8 +111,6 @@ SOCKSPolicy reject *
 ## Add Virtual Network Addresses to /etc/hosts
 ### (we create 4 as an example)
 
-----
-
 Notes:
 
 - these are addresses in separate "/30" subnets of the DHCP address space
@@ -304,6 +302,8 @@ This tells you that process ID `1276` is an instance of `sshd`  which is listeni
 ## ---- Finish ----
 
 You should be good to go.
+
+----
 
 # Notes
 
