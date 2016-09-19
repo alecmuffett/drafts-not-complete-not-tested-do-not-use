@@ -273,6 +273,14 @@ There is a small risk here that bad system administrators will permit the conten
 ## Install a Firewall
 
 **TO BE DONE**
+```sh
+sudo -i
+ufw enable
+ufw status verbose
+# consider stuff like this:
+# ufw allow from 192.168.0.1 to any port 22
+# ufw allow from 192.168.0.1 to $MY_IP_ADDRESS port 22
+```
 
 ## Redirect DNS over Tor
 
