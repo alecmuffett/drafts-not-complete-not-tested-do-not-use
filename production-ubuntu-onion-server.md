@@ -71,7 +71,7 @@ The first couple of lines should probably now look like this:
 
 do:
 
-- `aptitude install postfix`
+- `aptitude install postfix mailutils`
   - select `Local only` delivery 
   - set the email hostname `invalid.invalid` - to match the above FQDN hack
 
