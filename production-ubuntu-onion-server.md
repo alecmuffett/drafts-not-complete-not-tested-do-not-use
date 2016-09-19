@@ -1,4 +1,4 @@
-# Installing Ubuntu
+# Installing Onion Addresses on Ubuntu Server
 
 Notes:
 
