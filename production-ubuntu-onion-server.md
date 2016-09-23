@@ -92,6 +92,10 @@ do: `env EDITOR=vi git config --global --edit`
 
 ...and either uncomment the relevant lines or fix it properly
 
+## Optional: Standardise on UTC timezone
+
+**TBD.**
+
 ## Constrain Tor SOCKS access to literally 127.0.0.1
 
 edit: `/etc/tor/torrc` - and search for the SOCKSPolicy section; then insert:
