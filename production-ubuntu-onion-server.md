@@ -215,6 +215,10 @@ edit: `/etc/network/interfaces`
   - TODO(alecm) - we could use dummy network interfaces dummy0:0 (etc) - but that requires extra setup?
 
 ```
+# NOTE: when inserting this text you will have to manually 
+# replace <INTERFACE> with the name of your primary 
+# network interface. Sorry about that.
+
 # osite0
 auto <INTERFACE>:0
 iface <INTERFACE>:0 inet static
