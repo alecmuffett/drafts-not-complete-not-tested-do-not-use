@@ -181,7 +181,7 @@ HiddenServicePort 80 osite3.onion:80
 
 ## Constrain Tor SOCKS access to literally 127.0.0.1
 
-edit: `/etc/tor/torrc` - and search for the SOCKSPolicy section; then insert:
+Edit: `/etc/tor/torrc` - and search for the SOCKSPolicy section; then insert:
 
 ```
 SOCKSPolicy accept 127.0.0.1
