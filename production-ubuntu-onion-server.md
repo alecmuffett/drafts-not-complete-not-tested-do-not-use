@@ -33,6 +33,12 @@ Notes:
 
 ## Install Ubuntu
 
+Download Ubuntu Server
+
+- 64-bit version: http://www.ubuntu.com/download/server
+- 32-bit version: available via Bittorrent "alternative downloads" 
+  - http://www.ubuntu.com/download/alternative-downloads
+
 Follow the instructions to install Ubuntu Server.  Notes:
 
 - configure network interfaces carefully
