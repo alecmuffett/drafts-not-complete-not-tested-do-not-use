@@ -72,42 +72,16 @@ In a browser elsewhere, retreive the instructions for installing Tor from https:
 - Do the gpg thing
 - Do the tor installation
 
-## Constrain Tor SOCKS access to literally 127.0.0.1
+## Optional: Put the Tor configuration under revision control
 
-edit: `/etc/tor/torrc` - and search for the SOCKSPolicy section; then insert:
-
-```
-SOCKSPolicy accept 127.0.0.1
-SOCKSPolicy reject *
-```
-
-then restart Tor:
-
-```
-/etc/init.d/tor restart
-```
-
-## Check Tor Connectivity
-
-Wait 30+ seconds and do this:
+Because we all can make mistakes:
 
 ```sh
-torsocks curl https://www.facebook.com/si/proxy/ ; echo ""
+cd /etc/tor
+git init
+git add .
+git commit -m initial
 ```
-
-...this should print: `tor`
-
-Do this:
-
-```sh
-torsocks curl https://www.facebookcorewwwi.onion/si/proxy/ ; echo ""
-```
-
-...this should print: `onion`
-
-The tests should **not** print: `normal` - if they do, it's a burp/error.
-
-If your Tor daemon is slow to connect to the Tor network, you might want to wait a bit longer and try again.
 
 ## Fake a Fully Qualified Domain Name for Email
 
@@ -132,17 +106,6 @@ aptitude install postfix mailutils
 
 * select `Local only` delivery 
 * set the email hostname `invalid.invalid` (*verbatim*) to match the above FQDN hack
-
-## Optional: Put the Tor configuration under revision control
-
-Because we all can make mistakes:
-
-```sh
-cd /etc/tor
-git init
-git add .
-git commit -m initial
-```
 
 ## Optional: Make Git shut up about Email addresses
 
@@ -216,11 +179,46 @@ HiddenServicePort 80 osite3.onion:80
 
 ...this should be safe since we're not actually running anything on port 80 yet.
 
+## Constrain Tor SOCKS access to literally 127.0.0.1
+
+edit: `/etc/tor/torrc` - and search for the SOCKSPolicy section; then insert:
+
+```
+SOCKSPolicy accept 127.0.0.1
+SOCKSPolicy reject *
+```
+
 ## Restart Tor
 
-do: `/etc/init.d/tor restart`
+do: 
+
+```
+/etc/init.d/tor restart
+```
 
 This will create the hidden service directories cited above, etc
+
+## Check Tor Connectivity
+
+Wait 30+ seconds and do this:
+
+```sh
+torsocks curl https://www.facebook.com/si/proxy/ ; echo ""
+```
+
+...this should print: `tor`
+
+Do this:
+
+```sh
+torsocks curl https://www.facebookcorewwwi.onion/si/proxy/ ; echo ""
+```
+
+...this should print: `onion`
+
+The tests should **not** print: `normal` - if they do, it's a burp/error.
+
+If your Tor daemon is slow to connect to the Tor network, you might want to wait a bit longer and try again.
 
 ## Configure Virtual IP interfaces/addresses to map to the Onions 
 
