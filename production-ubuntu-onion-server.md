@@ -19,6 +19,7 @@ Todo:
 * screw down ssh access to specific interfaces?
 * offer optional instruction on standardising locale?
 * optional redirect DNS over Tor, because deanon via lookups?
+* rework the /etc/interfaces hacks to be less clunky?
 
 Notes:
 * the fake interfaces are VIPs bonded to the primary network interface
