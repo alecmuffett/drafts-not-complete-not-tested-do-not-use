@@ -187,15 +187,19 @@ net.ipv4.conf.all.rp_filter=1
 Edit: `/etc/tor/torrc` - and search for HiddenServiceDir section, and insert the following (*verbatim* - these will be auto-edited later): 
 
 ```
+# ---- section for osite0.onion ----
 HiddenServiceDir /var/lib/tor/osite0/
 HiddenServicePort 80 osite0.onion:80
 
+# ---- section for osite1.onion ----
 HiddenServiceDir /var/lib/tor/osite1/
 HiddenServicePort 80 osite1.onion:80
 
+# ---- section for osite2.onion ----
 HiddenServiceDir /var/lib/tor/osite2/
 HiddenServicePort 80 osite2.onion:80
 
+# ---- section for osite3.onion ----
 HiddenServiceDir /var/lib/tor/osite3/
 HiddenServicePort 80 osite3.onion:80
 ```
