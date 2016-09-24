@@ -9,6 +9,7 @@ Goals:
 * with local-only email to satisfy application dependencies
 * with a standard hostname which will not resolve in DNS (invalid.invalid)
 * with a standard timezone (UTC)
+* with a basic firewall of inbound connections
 * with openssh for access to local network
 
 Non-Goals:
@@ -17,6 +18,7 @@ Non-Goals:
 Todo:
 * screw down ssh access to specific interfaces?
 * offer optional instruction on standardising locale?
+* optional redirect DNS over Tor, because deanon via lookups?
 
 ----
 ## THIS DOCUMENT IS INCOMPLETE AND HAS NOT BEEN REVIEWED
