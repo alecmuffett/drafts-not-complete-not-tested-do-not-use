@@ -257,7 +257,7 @@ ifup -a
 ifconfig -a
 ```
 
-- and you should see the four new network interfaces
+...and you should see the four new network interfaces
 
 ## Tor Finalisation - **THE GRAND RENAMING**
 
