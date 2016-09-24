@@ -1,5 +1,23 @@
 # Installing Onion Addresses on Ubuntu Server
 
+Goals:
+* create a fully up-to-date Ubuntu instance
+* with automatic security patches
+* with tested Tor access
+* with 4x preconfigured, random onion addresses
+* with 4x corresponding fake IPv4 network interfaces to aid application configuration
+* with local-only email to satisfy application dependencies
+* with a standard hostname which will not resolve in DNS (invalid.invalid)
+* with a standard timezone (UTC)
+* with openssh for access to local network
+
+Non-Goals:
+* locale not forcibly standardised because not everyone will cope with english language
+
+Todo:
+* screw down ssh access to specific interfaces?
+* offer optional instruction on standardising locale?
+
 ----
 ## THIS DOCUMENT IS INCOMPLETE AND HAS NOT BEEN REVIEWED
 ## DO NOT USE THIS DOCUMENT OR YOU MAY BE CYBERSPANKED
