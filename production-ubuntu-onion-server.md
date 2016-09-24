@@ -105,7 +105,7 @@ torsocks curl https://www.facebookcorewwwi.onion/si/proxy/ ; echo ""
 
 ...this should print: `onion`
 
-The tests should **not** print `normal` - if they do, it's a burp/error.
+The tests should **not** print: `normal` - if they do, it's a burp/error.
 
 If your Tor daemon is slow to connect to the Tor network, you might want to wait a bit longer and try again.
 
