@@ -93,7 +93,7 @@ do:
 
 - `aptitude install postfix mailutils`
   - select `Local only` delivery 
-  - set the email hostname `invalid.invalid` - to match the above FQDN hack
+  - set the email hostname `invalid.invalid` (verbatim) to match the above FQDN hack
 
 ## Optional: Put the Tor configuration under revision control
 
