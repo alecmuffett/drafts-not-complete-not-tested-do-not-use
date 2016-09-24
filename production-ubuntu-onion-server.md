@@ -230,9 +230,14 @@ iface <INTERFACE>:3 inet static
 
 ## Create the Virtual IP Addresses
 
-do: `ifup -a`
+do: 
 
-then: `ifconfig -a` - and you should see the four new network interfaces
+```sh
+ifup -a
+ifconfig -a
+```
+
+- and you should see the four new network interfaces
 
 ## Tor Finalisation - **THE GRAND RENAMING**
 
