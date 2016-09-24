@@ -40,6 +40,7 @@ Follow the instructions to install Ubuntu Server.  Notes:
 - install an account for the sysadmin
 - install security updates automatically
 - install both `standard system utilities` and (optionally) `OpenSSH server`
+  - **DO NOT INSTALL ANY ADDITIONAL PACKAGES (YET)**
 
 ## Initial Setup
 
