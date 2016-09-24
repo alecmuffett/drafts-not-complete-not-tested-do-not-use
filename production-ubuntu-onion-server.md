@@ -22,7 +22,7 @@ Todo:
 
 Notes:
 * text marked *"verbatim"* should be carefully typed/pasted exactly as seen on screen
-  * Generally it is for purposes of security or for later auto-editing
+  * generally it is for purposes of security or for later auto-editing
 
 ----
 ## THIS DOCUMENT IS INCOMPLETE AND HAS NOT BEEN REVIEWED
