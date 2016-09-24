@@ -358,7 +358,13 @@ This tells you that process ID `1276` is an instance of `sshd`  which is listeni
 
 ## ---- Finish ----
 
-You should be good to install actual programs (eg: webservers) on the server, configure them to listen on the *named-onion-addresses*, and amend `/etc/tor/torrc` to expose the relevant *named-onion-address port-numbers* to onionspace.
+You should be good to install actual programs (eg: webservers) on the server:
+
+* configure them to listen on the (fake IP address) *named-onion-addresses*
+* amend `/etc/tor/torrc` to expose the relevant *named-onion-address* port-numbers to onionspace
+  * example: `HiddenServicePort 80 zxd674r63j44zfj7.onion:80 # in the appropriate section`
+  * remember: it is up to *you* to keep these in synchronisation
+* restart the tor service to kick them into life
 
 ----
 
