@@ -20,6 +20,8 @@ Todo:
 * offer optional instruction on standardising locale?
 * optional redirect DNS over Tor, because deanon via lookups?
 * rework the /etc/interfaces hacks to be less clunky?
+* check that rp_filter checks on the internal loopback offer the same value as strict destination multihoming*
+
 
 Notes:
 * the fake interfaces are VIPs bonded to the primary network interface
@@ -178,7 +180,6 @@ net.ipv6.conf.all.forwarding=0
 net.ipv4.conf.default.rp_filter=1
 net.ipv4.conf.all.rp_filter=1
 ```
-*TODO(alecm) - check that rp_filter checks on the internal loopback offer the same value as strict destination multihoming*
 
 ## Create Onion Addresses
 ### (we create 4 as an example)
@@ -211,9 +212,8 @@ This will create the hidden service directories cited above, etc
 
 edit: `/etc/network/interfaces` 
 
-- inserting the following text, replacing <INTERFACE> with your "primary network interface" 
-  - eg: `eth0`, `wlan0`, `enp4s0` - as cited in that file.
-  - TODO(alecm) - we could use dummy network interfaces dummy0:0 (etc) - but that requires extra setup?
+* inserting the following text, replacing <INTERFACE> with your "primary network interface" 
+  * eg: `eth0`, `wlan0`, `enp4s0` - as cited in that file.
 
 ```
 # NOTE: when inserting this text you will have to manually 
