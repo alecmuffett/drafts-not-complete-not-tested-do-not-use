@@ -31,22 +31,22 @@ Notes:
 ## DO NOT USE THIS DOCUMENT OR YOU MAY BE CYBERSPANKED
 ----
 
-## Install Ubuntu
+## Install Ubuntu Server
 
-Download Ubuntu Server
+Download Ubuntu Server 16.04.1
 
-- 64-bit version: http://www.ubuntu.com/download/server
-- 32-bit version: available via Bittorrent "alternative downloads" 
-  - http://www.ubuntu.com/download/alternative-downloads
+* 64-bit version: http://www.ubuntu.com/download/server
+* 32-bit version: available via Bittorrent "alternative downloads" 
+  * http://www.ubuntu.com/download/alternative-downloads
 
-Follow the instructions to install Ubuntu Server.  Notes:
+Follow the instructions to install Ubuntu Server. Notes:
 
-- configure network interfaces carefully
-- set the hostname to be `invalid` (*verbatim*)
-- install an account for the sysadmin
-- install security updates automatically
-- install both `standard system utilities` and (optionally) `OpenSSH server`
-  - **DO NOT INSTALL ANY OTHER ADDITIONAL PACKAGES (YET)**
+* configure network interfaces carefully
+* set the hostname to be `invalid` (*verbatim*)
+* install an account for the sysadmin
+* install security updates automatically
+* install both `standard system utilities` and (optionally) `OpenSSH server`
+  * **DO NOT INSTALL ANY OTHER ADDITIONAL PACKAGES (YET)**
 
 ## Initial Setup
 
