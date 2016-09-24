@@ -1,4 +1,4 @@
-# "Production" Ubuntu Server instances for Onion Sites
+# Building "Production" Ubuntu Server for Onion Sites
 
 Goals:
 * create a fully up-to-date Ubuntu instance
