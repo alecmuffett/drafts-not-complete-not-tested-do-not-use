@@ -20,6 +20,10 @@ Todo:
 * offer optional instruction on standardising locale?
 * optional redirect DNS over Tor, because deanon via lookups?
 
+Notes:
+* text marked *"verbatim"* should be carefully typed/pasted exactly as seen on screen
+  * Generally it is for purposes of security or for later auto-editing
+
 ----
 ## THIS DOCUMENT IS INCOMPLETE AND HAS NOT BEEN REVIEWED
 ## DO NOT USE THIS DOCUMENT OR YOU MAY BE CYBERSPANKED
@@ -30,7 +34,7 @@ Todo:
 Follow the instructions to install Ubuntu Server.  Notes:
 
 - configure network interfaces carefully
-- set the hostname to be `invalid` (verbatim)
+- set the hostname to be `invalid` (*verbatim*)
 - install an account for the sysadmin
 - install security updates automatically
 - install both `standard system utilities` and (optionally) `OpenSSH server`
@@ -91,9 +95,12 @@ The first couple of lines should probably now look like this:
 
 do:
 
-- `aptitude install postfix mailutils`
-  - select `Local only` delivery 
-  - set the email hostname `invalid.invalid` (verbatim) to match the above FQDN hack
+```sh
+aptitude install postfix mailutils
+```
+
+* select `Local only` delivery 
+* set the email hostname `invalid.invalid` (*verbatim*) to match the above FQDN hack
 
 ## Optional: Put the Tor configuration under revision control
 
