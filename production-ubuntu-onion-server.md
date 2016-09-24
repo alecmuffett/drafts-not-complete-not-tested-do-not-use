@@ -21,6 +21,8 @@ Todo:
 * optional redirect DNS over Tor, because deanon via lookups?
 
 Notes:
+* the fake interfaces are VIPs bonded to the primary network interface
+  * we might try using the dummy0 network driver instead, but that requires yet more configuration magic / pain
 * text marked *"verbatim"* should be carefully typed/pasted exactly as seen on screen
   * generally it is for purposes of security or for later auto-editing
 
