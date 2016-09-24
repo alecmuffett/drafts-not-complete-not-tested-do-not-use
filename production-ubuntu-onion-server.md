@@ -72,9 +72,24 @@ In a browser elsewhere, retreive the instructions for installing Tor from https:
 - Do the gpg thing
 - Do the tor installation
 
+## Constrain Tor SOCKS access to literally 127.0.0.1
+
+edit: `/etc/tor/torrc` - and search for the SOCKSPolicy section; then insert:
+
+```
+SOCKSPolicy accept 127.0.0.1
+SOCKSPolicy reject *
+```
+
+then restart Tor:
+
+```
+/etc/init.d/tor restart
+```
+
 ## Check Tor Connectivity
 
-Do this:
+Wait 30+ seconds and do this:
 
 ```sh
 torsocks curl https://www.facebook.com/si/proxy/ ; echo ""
@@ -89,6 +104,10 @@ torsocks curl https://www.facebookcorewwwi.onion/si/proxy/ ; echo ""
 ```
 
 ...this should print: `onion`
+
+The tests should **not** print `normal` - if they do, it's a burp/error.
+
+If your Tor daemon is slow to connect to the Tor network, you might want to wait a bit longer and try again.
 
 ## Fake a Fully Qualified Domain Name for Email
 
@@ -134,15 +153,6 @@ do: `env EDITOR=vi git config --global --edit`
 ## Standardise on UTC timezone
 
 do: `timedatectl set-timezone Etc/UTC`
-
-## Constrain Tor SOCKS access to literally 127.0.0.1
-
-edit: `/etc/tor/torrc` - and search for the SOCKSPolicy section; then insert:
-
-```
-SOCKSPolicy accept 127.0.0.1
-SOCKSPolicy reject *
-```
 
 ## Add Virtual Network Addresses to /etc/hosts
 ### (we create 4 as an example)
