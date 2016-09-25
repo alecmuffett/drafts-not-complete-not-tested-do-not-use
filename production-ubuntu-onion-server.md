@@ -436,7 +436,7 @@ The next logical step for the attacker would be to scan networks looking for mac
 `TODO:` consider explicit incoming packet blocks to the Tor daemon subnet addresses in case someone on the local LAN is forging traffic; probably best tied to the isolation of tor traffic using a dummy0 driver, separate everything out clearly.
 
 ```sh
-# BEGIN PASTE
+# THESE MUST BE EXECUTED ONE LINE AT A TIME BECAUSE USER INPUT
 sudo -i
 ufw enable
 ufw status verbose
@@ -444,7 +444,6 @@ ufw status verbose
 # okay:     ufw allow from $SPECIFIC_ADDRESS to $MY_IP_ADDRESS port 22
 # bad:      ufw allow from $SPECIFIC_ADDRESS to any port 22
 # terrible: ufw allow from any to any port 22
-# END PASTE
 ```
 
 ## Optional: Block outgoing network attempts other than Tor-related
