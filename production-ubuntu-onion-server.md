@@ -2,7 +2,7 @@
 
 #### Goals:
 * create a fully up-to-date Ubuntu instance
-* with automatic security patches
+* with automatic security patches (network access permitting)
 * with tested Tor access
 * with 4x preconfigured, random onion addresses
 * with 4x corresponding fake IPv4 network interfaces to aid application configuration
