@@ -329,7 +329,7 @@ HiddenServicePort 80 zxd674r63j44zfj7.onion:80
 
 Do: `shutdown -r now`
 
-If you are unwilling to do this, at least restart Tor with: `/etc/init.d/tor restart` - otherwise you will not pick up the changes that we jut made to the `torrc` file.
+If you are unwilling to do this, at least restart Tor with: `/etc/init.d/tor restart` - otherwise you will not pick up the changes that we just made to the `torrc` file.
 
 ## The Story So Far...
 
