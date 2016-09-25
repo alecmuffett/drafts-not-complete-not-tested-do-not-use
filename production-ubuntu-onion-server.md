@@ -52,7 +52,7 @@
 Download Ubuntu Server 16.04.1
 
 * 64-bit version: http://www.ubuntu.com/download/server
-* 32-bit version: available via Bittorrent "alternative downloads" 
+* 32-bit version: available via Bittorrent "alternative downloads"
   * http://www.ubuntu.com/download/alternative-downloads
 
 Follow the instructions to install Ubuntu Server. Notes:
@@ -70,7 +70,7 @@ Do:
 
 ```sh
 # PASTE
-sudo -i 
+sudo -i
 apt-get install aptitude
 aptitude update
 aptitude upgrade
@@ -80,9 +80,9 @@ aptitude upgrade
 
 In a browser elsewhere, retreive the instructions for installing Tor from https://www.torproject.org/docs/debian.html.en
 
-* Set the menu options for: 
-  * run *Ubuntu Xenial Xerus* 
-  * and want *Tor* 
+* Set the menu options for:
+  * run *Ubuntu Xenial Xerus*
+  * and want *Tor*
   * and version *stable*
   * and read what is now on the page.
 * Configure the APT repositories for Tor
@@ -125,7 +125,7 @@ do:
 aptitude install postfix mailutils
 ```
 
-* select `Local only` delivery 
+* select `Local only` delivery
 * set the email hostname `invalid.invalid` (*verbatim*) to match the above FQDN hack
 
 ## Optional: Make Git shut up about Email addresses
@@ -141,10 +141,10 @@ env EDITOR=vi git config --global --edit
 
 ## Standardise on UTC timezone
 
-do: 
+do:
 
-```sh 
-# PASTE 
+```sh
+# PASTE
 timedatectl set-timezone Etc/UTC
 ```
 
@@ -163,11 +163,11 @@ Notes:
 ```sh
 # PASTE
 cat >>/etc/hosts <<EOT
-# 'shadow' onion ip-addresses 
-169.254.255.253	osite0.onion
-169.254.255.249	osite1.onion
-169.254.255.245	osite2.onion
-169.254.255.241	osite3.onion
+# 'shadow' onion ip-addresses
+169.254.255.253 osite0.onion
+169.254.255.249 osite1.onion
+169.254.255.245 osite2.onion
+169.254.255.241 osite3.onion
 EOT
 ```
 
@@ -243,7 +243,7 @@ EOT
 
 ## Restart Tor
 
-do: 
+do:
 
 ```sh
 # PASTE
@@ -276,50 +276,57 @@ The tests should **not** print: `normal` - if they do, it's a burp/error.
 
 If your Tor daemon is slow to connect to the Tor network, you might want to wait a bit longer and try again.
 
-## Configure Virtual IP interfaces/addresses to map to the Onions 
+## Configure Virtual IP interfaces that will map to the Onions
 
-edit: `/etc/network/interfaces` 
+do:
 
-* inserting the following text, replacing <INTERFACE> with your "primary network interface" 
-  * eg: `eth0`, `wlan0`, `enp4s0` - as cited in that file.
+```sh
+# PASTE
+MODPROBEFILE=/etc/modprobe.d/dummyif
+NUMDUMMIES=4
 
-```
-# NOTE: when inserting this text you will have to manually 
-# replace <INTERFACE> with the name of your primary 
-# network interface. Sorry about that.
+# for now
+modprobe dummy numdummies=$NUMDUMMIES
 
+# for reboot
+echo "options dummy numdummies=$NUMDUMMIES" > $MODPROBEFILE
+chmod 644 $MODPROBEFILE
+
+# for config
+cat >>/etc/network/interfaces <<EOT
 # osite0
-auto <INTERFACE>:0
-iface <INTERFACE>:0 inet static
+auto dummy0
+iface dummy0 inet static
   address 169.254.255.253
   netmask 255.255.255.252
   broadcast 169.254.255.255
 
 # osite1
-auto <INTERFACE>:1
-iface <INTERFACE>:1 inet static
+auto dummy1
+iface dummy1 inet static
   address 169.254.255.249
   netmask 255.255.255.252
   broadcast 169.254.255.251
 
 # osite2
-auto <INTERFACE>:2
-iface <INTERFACE>:2 inet static
+auto dummy2
+iface dummy2 inet static
   address 169.254.255.245
   netmask 255.255.255.252
   broadcast 169.254.255.247
 
 # osite3
-auto <INTERFACE>:3
-iface <INTERFACE>:3 inet static
+auto dummy3
+iface dummy3 inet static
   address 169.254.255.241
   netmask 255.255.255.252
   broadcast 169.254.255.243
+EOT
 ```
 
-## Create the Virtual IP Addresses
+## Create the Virtual IP interfaces
 
-do: 
+do:
 
 ```sh
 # PASTE
@@ -457,9 +464,9 @@ You should be good to install actual programs (eg: webservers) on the server:
 
 ## Putting 4 Onion Addresses on a Server? OMGWTFBBQ?
 
-Yeah, well, whatever. Someone is gonna want more than one, so I might as well do the subnet math for them now. 
+Yeah, well, whatever. Someone is gonna want more than one, so I might as well do the subnet math for them now.
 
-Yes there is advice to not run more than 1 onion address per machine that is attached to the internet. 
+Yes there is advice to not run more than 1 onion address per machine that is attached to the internet.
 
 Anyone who is *actually* worried about being deanonymised can skip the extra three and install more systems if they actually need more than 1 onion address.
 
@@ -469,7 +476,7 @@ Basically we have created four little subnets, each of which can hold a maximum 
 
 Why do this? For convenience we want virtual IPv4 addresses which exist only on the server and which are not routable across the internet; we will then map those 1-to-1 against Onion addresses, and use them systematically in the `torrc` file so that processes (Apache, sshd, etc...) that do `gethostbyname()` on their connection's source address will see (eg:) `zxd674r63j44zfj7.onion` rather than localhost.
 
-Quite a lot of processes would give `localhost` special privileged access, so marking inbound Onion connections as coming from somewhere other than `localhost` is a good idea. 
+Quite a lot of processes would give `localhost` special privileged access, so marking inbound Onion connections as coming from somewhere other than `localhost` is a good idea.
 
 It just seems sane, therefore to use the onion address as a hostname, instead,
 
@@ -480,43 +487,42 @@ $ mknetmask 169.254.255.254/30
 # 169.254.255.252/30: is a class B network and supports 2 hosts
 # 169.254.255.252/30: netaddr 169.254.255.252 netmask 255.255.255.252 broadcast 169.254.255.255
 # 169.254.255.252/30: netaddr 0xa9fefffc netmask 0xfffffffc broadcast 0xa9feffff
-169.254.255.252	net-169-254-255-252-slash-30-netaddr
-169.254.255.253	net-169-254-255-252-slash-30-addr-1
-169.254.255.254	net-169-254-255-252-slash-30-addr-2
-169.254.255.255	net-169-254-255-252-slash-30-broadcast
+169.254.255.252 net-169-254-255-252-slash-30-netaddr
+169.254.255.253 net-169-254-255-252-slash-30-addr-1
+169.254.255.254 net-169-254-255-252-slash-30-addr-2
+169.254.255.255 net-169-254-255-252-slash-30-broadcast
 
 $ mknetmask 169.254.255.249/30
 # 169.254.255.248/30: is a class B network and supports 2 hosts
 # 169.254.255.248/30: netaddr 169.254.255.248 netmask 255.255.255.252 broadcast 169.254.255.251
 # 169.254.255.248/30: netaddr 0xa9fefff8 netmask 0xfffffffc broadcast 0xa9fefffb
-169.254.255.248	net-169-254-255-248-slash-30-netaddr
-169.254.255.249	net-169-254-255-248-slash-30-addr-1
-169.254.255.250	net-169-254-255-248-slash-30-addr-2
-169.254.255.251	net-169-254-255-248-slash-30-broadcast
+169.254.255.248 net-169-254-255-248-slash-30-netaddr
+169.254.255.249 net-169-254-255-248-slash-30-addr-1
+169.254.255.250 net-169-254-255-248-slash-30-addr-2
+169.254.255.251 net-169-254-255-248-slash-30-broadcast
 
 $ mknetmask 169.254.255.245/30
 # 169.254.255.244/30: is a class B network and supports 2 hosts
 # 169.254.255.244/30: netaddr 169.254.255.244 netmask 255.255.255.252 broadcast 169.254.255.247
 # 169.254.255.244/30: netaddr 0xa9fefff4 netmask 0xfffffffc broadcast 0xa9fefff7
-169.254.255.244	net-169-254-255-244-slash-30-netaddr
-169.254.255.245	net-169-254-255-244-slash-30-addr-1
-169.254.255.246	net-169-254-255-244-slash-30-addr-2
-169.254.255.247	net-169-254-255-244-slash-30-broadcast
+169.254.255.244 net-169-254-255-244-slash-30-netaddr
+169.254.255.245 net-169-254-255-244-slash-30-addr-1
+169.254.255.246 net-169-254-255-244-slash-30-addr-2
+169.254.255.247 net-169-254-255-244-slash-30-broadcast
 
 $ mknetmask 169.254.255.241/30
 # 169.254.255.240/30: is a class B network and supports 2 hosts
 # 169.254.255.240/30: netaddr 169.254.255.240 netmask 255.255.255.252 broadcast 169.254.255.243
 # 169.254.255.240/30: netaddr 0xa9fefff0 netmask 0xfffffffc broadcast 0xa9fefff3
-169.254.255.240	net-169-254-255-240-slash-30-netaddr
-169.254.255.241	net-169-254-255-240-slash-30-addr-1
-169.254.255.242	net-169-254-255-240-slash-30-addr-2
-169.254.255.243	net-169-254-255-240-slash-30-broadcast
+169.254.255.240 net-169-254-255-240-slash-30-netaddr
+169.254.255.241 net-169-254-255-240-slash-30-addr-1
+169.254.255.242 net-169-254-255-240-slash-30-addr-2
+169.254.255.243 net-169-254-255-240-slash-30-broadcast
 ```
 
-Aside for fellow network programmers: yes I could screw this down even tighter and use a "/31" but 
+Aside for fellow network programmers: yes I could screw this down even tighter and use a "/31" but
 
 ----
 ## THIS DOCUMENT IS INCOMPLETE AND HAS NOT BEEN REVIEWED
 ## DO NOT USE THIS DOCUMENT OR YOU MAY BE CYBERSPANKED
 ----
-
