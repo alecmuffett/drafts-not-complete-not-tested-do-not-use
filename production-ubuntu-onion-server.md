@@ -17,6 +17,7 @@ Non-Goals:
   * not everyone will cope with english language
 * we are not building a Docker container, nor Ansible, nor Qubes
   * platforms like those are a barrier to entry because "learning curve" apart from any other reason
+  * developers are free to use the content of this document to roll their own platforms
 
 Todo:
 * screw down ssh access to specific interfaces?
