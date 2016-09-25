@@ -282,15 +282,12 @@ do:
 
 ```sh
 # PASTE
-MODPROBEFILE=/etc/modprobe.d/dummyif
+# settings
 NUMDUMMIES=4
-
 # for now
 modprobe dummy numdummies=$NUMDUMMIES
-
 # for reboot
-echo "options dummy numdummies=$NUMDUMMIES" > $MODPROBEFILE
-chmod 644 $MODPROBEFILE
+echo "dummy numdummies=$NUMDUMMIES" >> /etc/modules
 
 # for config
 cat >>/etc/network/interfaces <<EOT
