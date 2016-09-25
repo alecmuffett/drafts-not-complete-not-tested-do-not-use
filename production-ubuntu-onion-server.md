@@ -354,12 +354,11 @@ ifconfig -a
 
 ## Tor Finalisation - **THE GRAND RENAMING**
 
-First, make a backup of the hosts file: `cp /etc/hosts /etc/hosts,backup`
-
 Then: run this script:
 
 ```sh
 # BEGIN PASTE
+cp /etc/hosts /etc/hosts.orig
 for odir in /var/lib/tor/osite?/ ; do
 oname=`basename $odir`
 oaddr=`cat $odir/hostname`
