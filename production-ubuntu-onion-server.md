@@ -354,7 +354,7 @@ ifconfig -a
 
 ## Tor Finalisation - **THE GRAND RENAMING**
 
-Then: run this script:
+do:
 
 ```sh
 # BEGIN PASTE
