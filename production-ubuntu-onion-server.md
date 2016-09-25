@@ -105,8 +105,12 @@ git commit -m initial
 
 ## Fake a Fully Qualified Domain Name for Email
 
-- edit `/etc/hosts`
-- add `invalid.invalid` as an alias for the existing `invalid` entry
+do:
+
+```sh
+# PASTE
+perl -pi~ -e 's/invalid/invalid invalid.invalid/' /etc/hosts
+```
 
 The first couple of lines should probably now look like this:
 
