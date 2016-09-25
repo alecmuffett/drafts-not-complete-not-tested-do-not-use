@@ -412,7 +412,7 @@ Some software you use may get tricked into performing DNS lookups of specially-c
 
 `WORK IN PROGRESS`
 
-## Install a Firewall
+## Install a Firewall, block incoming network connections
 
 You've done all the work above in order to create onion-network-addresses and easy ways to configure applications that can talk to them consistently, with a minimum of useful metadata that could be used to identify the machine's location or "true" IP address which would open it up to (eg:) DDoS attack.
 
@@ -431,7 +431,7 @@ ufw status verbose
 # terrible: ufw allow from any to any port 22
 ```
 
-## Optional: Block outgoing network attempts other than Tor-related
+## Optional: Block outgoing network connections other than Tor-related
 
 `WORK IN PROGRESS`
 
