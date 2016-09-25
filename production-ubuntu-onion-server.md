@@ -34,7 +34,7 @@
 * check that rp_filter checks on the internal loopback offer the same value as strict destination multihoming*
 * other work in progress
 
-Notes:
+#### Notes:
 * the fake interfaces are VIPs bonded to the primary network interface
   * we might try using the dummy0 network driver instead, but that requires yet more configuration magic / pain
 * text marked *"verbatim"* should be carefully typed/pasted exactly as seen on screen
