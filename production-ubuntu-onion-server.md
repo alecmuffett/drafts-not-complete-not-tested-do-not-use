@@ -117,8 +117,9 @@ do:
 aptitude install postfix mailutils
 ```
 
-* select `Local only` delivery
+* Under *Postfix Configuration*, select `Local only` as *General type of mail configuration*
 * set the email hostname `invalid.invalid` (*verbatim*) to match the above FQDN hack
+  * you will be adding the extra `.invalid` top level domain to the existing name
 
 ## Optional: Make Git shut up about Email addresses
 
