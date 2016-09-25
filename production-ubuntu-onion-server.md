@@ -291,7 +291,7 @@ ifconfig -a
 
 First, make a backup of the hosts file: `cp /etc/hosts /etc/hosts,backup`
 
-Then: run this script:
+Then: run this script: (paste should work)
 
 ```sh
 for odir in /var/lib/tor/osite?/ ; do
