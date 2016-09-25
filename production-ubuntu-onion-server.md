@@ -185,39 +185,60 @@ net.ipv4.conf.default.rp_filter=1
 net.ipv4.conf.all.rp_filter=1
 ```
 
-## Create Onion Addresses
-### (we create 4 as an example)
 
-Edit: `/etc/tor/torrc` - and search for HiddenServiceDir section, and insert the following (*verbatim* - these will be auto-edited later): 
+## Backup the Tor config file for reference, and nuke the original
 
+It's basically all commented out anyway, so let's have a clean slate.
+
+do:
+
+```sh
+# PASTE
+cp -p /etc/tor/torrc /etc/tor/torrc.orig
+cp /dev/null /etc/tor/torrc
 ```
-# ---- section for osite0.onion ----
-HiddenServiceDir /var/lib/tor/osite0/
-HiddenServicePort 80 osite0.onion:80
-
-# ---- section for osite1.onion ----
-HiddenServiceDir /var/lib/tor/osite1/
-HiddenServicePort 80 osite1.onion:80
-
-# ---- section for osite2.onion ----
-HiddenServiceDir /var/lib/tor/osite2/
-HiddenServicePort 80 osite2.onion:80
-
-# ---- section for osite3.onion ----
-HiddenServiceDir /var/lib/tor/osite3/
-HiddenServicePort 80 osite3.onion:80
-```
-
-...this should be safe since we're not actually running anything on port 80 yet.
 
 ## Constrain Tor SOCKS access to literally 127.0.0.1
 
-Edit: `/etc/tor/torrc` - and search for the SOCKSPolicy section; then insert:
+do:
 
-```
+```sh
+# PASTE
+cat >>/etc/tor/torrc <<EOT
 SOCKSPolicy accept 127.0.0.1
 SOCKSPolicy reject *
+#
+EOT
 ```
+
+## Create Onion Addresses
+### (we create 4 as an example)
+
+do:
+
+```sh
+# PASTE
+cat >>/etc/tor/torrc <<EOT
+# ---- section for osite0.onion ----
+HiddenServiceDir /var/lib/tor/osite0/
+HiddenServicePort 80 osite0.onion:80
+#
+# ---- section for osite1.onion ----
+HiddenServiceDir /var/lib/tor/osite1/
+HiddenServicePort 80 osite1.onion:80
+#
+# ---- section for osite2.onion ----
+HiddenServiceDir /var/lib/tor/osite2/
+HiddenServicePort 80 osite2.onion:80
+#
+# ---- section for osite3.onion ----
+HiddenServiceDir /var/lib/tor/osite3/
+HiddenServicePort 80 osite3.onion:80
+#
+EOT
+```
+
+...this should be safe since we're not actually running anything on port 80 yet.
 
 ## Restart Tor
 
@@ -232,7 +253,7 @@ This will create the hidden service directories cited above, etc
 
 ## Check Tor Connectivity
 
-Wait 30+ seconds and do this:
+Wait 30+ seconds, and then do:
 
 ```sh
 # PASTE
@@ -241,7 +262,7 @@ torsocks curl https://www.facebook.com/si/proxy/ ; echo ""
 
 ...this should print: `tor`
 
-Do this:
+Next, do:
 
 ```sh
 # PASTE
