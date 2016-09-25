@@ -40,6 +40,7 @@
 * text marked *"verbatim"* should be carefully typed/pasted exactly as seen on screen
   * generally it is for purposes of security or for later auto-editing
 * code that can be pasted is marked `# PASTE`
+  * if you are (rightly) worried about pasting from a web browser, git-clone the document and use that.
 
 ----
 ## THIS DOCUMENT IS INCOMPLETE AND HAS NOT BEEN REVIEWED
