@@ -1,6 +1,6 @@
 # Building "Production" Ubuntu Server for Onion Sites
 
-Goals:
+#### Goals:
 * create a fully up-to-date Ubuntu instance
 * with automatic security patches
 * with tested Tor access
@@ -12,12 +12,12 @@ Goals:
 * with a basic firewall of inbound connections
 * with openssh for access to local network
 
-Optional Goals
+#### Optional Goals
 * with Tor configuration files under Git revision control
 * with DNS-lookup tunneled over Tor
 * with outbound connection attempts blocked
 
-Non-Goals:
+#### Non-Goals:
 * we are not forcibly standardising locale
   * not everyone will cope with english language
 * we are not building a Docker container, nor Ansible, nor Qubes
@@ -26,13 +26,13 @@ Non-Goals:
 * we are not forcing outbound TCP connection attempts to go over Tor
   * simpler to block them entirely, switch on/off normal TCP connections during sysadmin for updates
 
-Todo:
+#### Todo:
 * screw down ssh access to specific interfaces?
 * offer optional instruction on standardising locale?
 * optional redirect DNS over Tor, because deanon via lookups?
 * rework the /etc/interfaces hacks to be less clunky?
 * check that rp_filter checks on the internal loopback offer the same value as strict destination multihoming*
-
+* other work in progress
 
 Notes:
 * the fake interfaces are VIPs bonded to the primary network interface
