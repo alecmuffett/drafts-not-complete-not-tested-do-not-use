@@ -363,7 +363,7 @@ for odir in /var/lib/tor/osite?/ ; do
 oname=`basename $odir`
 oaddr=`cat $odir/hostname`
 perl -pi~ -e "s/$oname.onion/$oaddr $oname/" /etc/hosts
-perl -pi~ -e "s/$oname.onion:/$oaddr:/" /etc/tor/torrc
+perl -pi~ -e "s/$oname.onion/$oaddr/" /etc/tor/torrc
 done
 # END PASTE
 ```
