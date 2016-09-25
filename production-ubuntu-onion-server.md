@@ -358,27 +358,27 @@ cp /etc/hosts /etc/hosts.orig
 for odir in /var/lib/tor/osite?/ ; do
 oname=`basename $odir`
 oaddr=`cat $odir/hostname`
-perl -pi~ -e "s/$oname.onion/$oaddr $oname/" /etc/hosts
+perl -pi~ -e "s/$oname.onion/$oaddr/" /etc/hosts
 perl -pi~ -e "s/$oname.onion/$oaddr/" /etc/tor/torrc
 done
 # END PASTE
 ```
 
-Then test the resolution of `osite0` (etc) into IPv4-equivalent onion names:
+Then test the resolution of IPv4-equivalent onion names:
 
 ```sh
 # BEGIN PASTE
-ping -c 1 osite0
-ping -c 1 osite1
-ping -c 1 osite2
-ping -c 1 osite3
+for odir in /var/lib/tor/osite?/ ; do
+oaddr=`cat $odir/hostname`
+ping -q -c 1 $oaddr
+done
 # END PASTE
 ```
 
 For each address you should see something like this:
 
 ```
-root@invalid:~# ping -q -c 1 osite0
+root@invalid:~# ping -q -c 1 zxd674r63j44zfj7.onion
 PING zxd674r63j44zfj7.onion (169.254.255.253) 56(84) bytes of data.
 
 --- zxd674r63j44zfj7.onion ping statistics ---
@@ -386,7 +386,7 @@ PING zxd674r63j44zfj7.onion (169.254.255.253) 56(84) bytes of data.
 rtt min/avg/max/mdev = 0.096/0.096/0.096/0.000 ms
 ```
 
-...demonstrating that `osite0` is now an alias for a hostname `zxd674r63j44zfj7.onion` - which itself is a name that is bound to a virtual interface on your machine, and to which `torrc` is now configured forward connections on port 80:
+...demonstrating that `zxd674r63j44zfj7.onion` is a name that is bound to a virtual interface on your machine, and to which `torrc` is now configured forward connections on port 80:
 
 ```
 root@invalid:~# grep zxd674r63j44zfj7.onion /etc/tor/torrc
