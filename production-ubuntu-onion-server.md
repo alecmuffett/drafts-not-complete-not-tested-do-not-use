@@ -158,14 +158,15 @@ Notes:
 - we use the first usable address in each of separate "/30"-type subnets to inhibit routing and cross-contamination.
 - because of what we are trying to achieve we could perhaps try using "/31" pairs and treat them as point-to-point, but that would be complex and contentious, whereas this is vanilla networking.
 
-Edit: `/etc/hosts` - and add the following (*verbatim* - these will be auto-edited later):
-
-```
-# descending order of IP address
+```sh
+# PASTE
+cat >>/etc/hosts <<EOT
+# 'shadow' onion ip-addresses 
 169.254.255.253	osite0.onion
 169.254.255.249	osite1.onion
 169.254.255.245	osite2.onion
 169.254.255.241	osite3.onion
+EOT
 ```
 
 ## Disable IP Forwarding and Multihoming
