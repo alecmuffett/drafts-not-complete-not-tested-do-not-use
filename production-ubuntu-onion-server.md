@@ -13,7 +13,8 @@ Goals:
 * with openssh for access to local network
 
 Non-Goals:
-* we are not forcibly standardising locale because not everyone will cope with english language
+* we are not forcibly standardising locale
+  * not everyone will cope with english language
 * we are not building a Docker container, nor Ansible, nor Qubes
   * platforms like those are a barrier to entry because "learning curve" apart from any other reason
 
