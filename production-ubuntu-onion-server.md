@@ -409,18 +409,6 @@ shutdown -r now
 
 If you are unwilling to do this, at least restart Tor with: `/etc/init.d/tor restart` - otherwise you will not pick up the changes that we just made to the `torrc` file.
 
-## The Story So Far...
-
-You now have a server which is configured with (up to) four onion addresses.
-
-You may disable any onion addresses that you are not using (by editing `/etc/tor/torrc`) or you may have avoided creating them in the first place.
-
-The reason for creating IPv4 addresses to act as "shadows" for the onion addresses is one of Unix access control - eg: Apache "Listen" and VirtualHost directives can be configured clearly and unambiguously with the given Onion name, which will resolve also locally and (hopefully) avoid complaints.
-
-Also: applications which enforce access-control on the basis of source IP address will inherit and resolve the name of the Onion address through which the traffic arrived, by virtue of the Tor daemon connecting to the correspondingly-named IP address.
-
-There is a small risk here that bad system administrators will permit the contents of (eg:) /var/lib/tor/oside0/hostname to get out of sync with either/both of `/etc/hosts` or `/etc/tor/torrc`.  So don't let that happen.
-
 ## Optional: Redirect DNS over Tor
 
 Some software you use may get tricked into performing DNS lookups of specially-crafted domain names, in order to watch-for and determine the IP address of the server. The easiest solution for this is to make outgoing DNS requests over Tor.
@@ -468,6 +456,16 @@ tcp  0  0 *:ssh  *:*  LISTEN  1276/sshd
 This tells you that process ID `1276` is an instance of `sshd`  which is listening to the `ssh` port on all network interfaces.  You may want to consider the security risks, and perhaps reconfigure this (and other) programs to listen only to specific, especially non-onion, network interfaces.
 
 ## ---- Finish ----
+
+You now have a server which is configured with (up to) four onion addresses.
+
+You may disable any onion addresses that you are not using (by editing `/etc/tor/torrc`) or you may have avoided creating them in the first place.
+
+The reason for creating IPv4 addresses to act as "shadows" for the onion addresses is one of Unix access control - eg: Apache "Listen" and VirtualHost directives can be configured clearly and unambiguously with the given Onion name, which will resolve also locally and (hopefully) avoid complaints.
+
+Also: applications which enforce access-control on the basis of source IP address will inherit and resolve the name of the Onion address through which the traffic arrived, by virtue of the Tor daemon connecting to the correspondingly-named IP address.
+
+There is a small risk here that bad system administrators will permit the contents of (eg:) /var/lib/tor/oside0/hostname to get out of sync with either/both of `/etc/hosts` or `/etc/tor/torrc`.  So don't let that happen.
 
 You should be good to install actual programs (eg: webservers) on the server:
 
