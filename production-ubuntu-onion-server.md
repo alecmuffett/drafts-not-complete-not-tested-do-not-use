@@ -343,6 +343,12 @@ Also: applications which enforce access-control on the basis of source IP addres
 
 There is a small risk here that bad system administrators will permit the contents of (eg:) /var/lib/tor/oside0/hostname to get out of sync with either/both of `/etc/hosts` or `/etc/tor/torrc`.  So don't let that happen.
 
+## Optional: Redirect DNS over Tor
+
+Some software you use may get tricked into performing DNS lookups of specially-crafted domain names, in order to watch-for and determine the IP address of the server. The easiest solution for this is to make outgoing DNS requests over Tor.
+
+`WORK IN PROGRESS`
+
 ## Install a Firewall
 
 You've done all the work above in order to create onion-network-addresses and easy ways to configure applications that can talk to them consistently, with a minimum of useful metadata that could be used to identify the machine's location or "true" IP address which would open it up to (eg:) DDoS attack.
@@ -358,12 +364,6 @@ ufw status verbose
 # bad:      ufw allow from $SPECIFIC_ADDRESS to any port 22
 # terrible: ufw allow from any to any port 22
 ```
-
-## Optional: Redirect DNS over Tor
-
-Some software you use may get tricked into performing DNS lookups of specially-crafted domain names, in order to watch-for and determine the IP address of the server. The easiest solution for this is to make outgoing DNS requests over Tor.
-
-`WORK IN PROGRESS`
 
 ## Optional: Block outgoing network attempts other than Tor-related
 
