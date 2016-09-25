@@ -39,6 +39,7 @@
   * we might try using the dummy0 network driver instead, but that requires yet more configuration magic / pain
 * text marked *"verbatim"* should be carefully typed/pasted exactly as seen on screen
   * generally it is for purposes of security or for later auto-editing
+* code that can be pasted is marked `# PASTE`
 
 ----
 ## THIS DOCUMENT IS INCOMPLETE AND HAS NOT BEEN REVIEWED
@@ -67,6 +68,7 @@ Follow the instructions to install Ubuntu Server. Notes:
 Do:
 
 ```sh
+# PASTE
 sudo -i 
 apt-get install aptitude
 aptitude update
@@ -92,6 +94,7 @@ In a browser elsewhere, retreive the instructions for installing Tor from https:
 Because we all can make mistakes:
 
 ```sh
+# PASTE
 cd /etc/tor
 git init
 git add .
@@ -116,6 +119,7 @@ The first couple of lines should probably now look like this:
 do:
 
 ```sh
+# PASTE
 aptitude install postfix mailutils
 ```
 
@@ -124,13 +128,23 @@ aptitude install postfix mailutils
 
 ## Optional: Make Git shut up about Email addresses
 
-do: `env EDITOR=vi git config --global --edit`
+do:
+
+```sh
+# PASTE
+env EDITOR=vi git config --global --edit
+```
 
 ...and either uncomment the relevant lines or fix it properly
 
 ## Standardise on UTC timezone
 
-do: `timedatectl set-timezone Etc/UTC`
+do: 
+
+```sh 
+# PASTE 
+timedatectl set-timezone Etc/UTC
+```
 
 ## Add Virtual Network Addresses to /etc/hosts
 ### (we create 4 as an example)
@@ -207,7 +221,8 @@ SOCKSPolicy reject *
 
 do: 
 
-```
+```sh
+# PASTE
 /etc/init.d/tor restart
 ```
 
@@ -218,6 +233,7 @@ This will create the hidden service directories cited above, etc
 Wait 30+ seconds and do this:
 
 ```sh
+# PASTE
 torsocks curl https://www.facebook.com/si/proxy/ ; echo ""
 ```
 
@@ -226,6 +242,7 @@ torsocks curl https://www.facebook.com/si/proxy/ ; echo ""
 Do this:
 
 ```sh
+# PASTE
 torsocks curl https://www.facebookcorewwwi.onion/si/proxy/ ; echo ""
 ```
 
@@ -281,6 +298,7 @@ iface <INTERFACE>:3 inet static
 do: 
 
 ```sh
+# PASTE
 ifup -a
 ifconfig -a
 ```
@@ -291,9 +309,10 @@ ifconfig -a
 
 First, make a backup of the hosts file: `cp /etc/hosts /etc/hosts,backup`
 
-Then: run this script: (paste should work)
+Then: run this script:
 
 ```sh
+# PASTE
 for odir in /var/lib/tor/osite?/ ; do
 oname=`basename $odir`
 oaddr=`cat $odir/hostname`
@@ -305,6 +324,7 @@ done
 Then test the resolution of `osite0` (etc) into IPv4-equivalent onion names:
 
 ```sh
+# PASTE
 ping -c 1 osite0
 ping -c 1 osite1
 ping -c 1 osite2
@@ -331,7 +351,12 @@ HiddenServicePort 80 zxd674r63j44zfj7.onion:80
 
 ## Reboot to apply all changes and new executables
 
-Do: `shutdown -r now`
+Do:
+
+```sh
+# PASTE
+shutdown -r now
+```
 
 If you are unwilling to do this, at least restart Tor with: `/etc/init.d/tor restart` - otherwise you will not pick up the changes that we just made to the `torrc` file.
 
@@ -362,6 +387,7 @@ The next logical step for the attacker would be to scan networks looking for mac
 `TODO:` consider explicit incoming packet blocks to the Tor daemon subnet addresses in case someone on the local LAN is forging traffic; probably best tied to the isolation of tor traffic using a dummy0 driver, separate everything out clearly.
 
 ```sh
+# PASTE
 sudo -i
 ufw enable
 ufw status verbose
@@ -380,6 +406,7 @@ ufw status verbose
 Do:
 
 ```sh
+# PASTE
 sudo netstat -a --inet --program  | awk '$6=="LISTEN" && $4~/^\*/'
 ```
 This will print a list of network sockets which are listening to all local network interfaces simultaneously; something like:
