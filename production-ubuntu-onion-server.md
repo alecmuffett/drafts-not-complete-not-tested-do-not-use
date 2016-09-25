@@ -37,7 +37,7 @@
 #### Notes:
 * text marked *"verbatim"* should be carefully typed/pasted exactly as seen on screen
   * generally it is for purposes of security or for later auto-editing
-* code that can be pasted is marked `# PASTE`
+* code that can be pasted is between `# BEGIN PASTE` and `# END PASTE`
   * if you are (rightly) worried about pasting from a web browser, git-clone the document and use that.
 
 ----
@@ -67,11 +67,12 @@ Follow the instructions to install Ubuntu Server. Notes:
 Do:
 
 ```sh
-# PASTE
+# BEGIN PASTE
 sudo -i
 apt-get install aptitude
 aptitude update
 aptitude upgrade
+# END PASTE
 ```
 
 ## Installing Tor
@@ -94,11 +95,12 @@ In a browser elsewhere, retreive the instructions for installing Tor from https:
 Because we all can make mistakes:
 
 ```sh
-# PASTE
+# BEGIN PASTE
 cd /etc/tor
 git init
 git add .
 git commit -m initial
+# END PASTE
 ```
 
 ## Fake a Fully Qualified Domain Name for Email
@@ -106,8 +108,9 @@ git commit -m initial
 do:
 
 ```sh
-# PASTE
+# BEGIN PASTE
 perl -pi~ -e 's/invalid/invalid invalid.invalid/' /etc/hosts
+# END PASTE
 ```
 
 The first couple of lines should probably now look like this:
@@ -123,8 +126,9 @@ The first couple of lines should probably now look like this:
 do:
 
 ```sh
-# PASTE
+# BEGIN PASTE
 aptitude install postfix mailutils
+# END PASTE
 ```
 
 * select `Local only` delivery
@@ -135,8 +139,9 @@ aptitude install postfix mailutils
 do:
 
 ```sh
-# PASTE
+# BEGIN PASTE
 env EDITOR=vi git config --global --edit
+# END PASTE
 ```
 
 ...and either uncomment the relevant lines or fix it properly
@@ -146,8 +151,9 @@ env EDITOR=vi git config --global --edit
 do:
 
 ```sh
-# PASTE
+# BEGIN PASTE
 timedatectl set-timezone Etc/UTC
+# END PASTE
 ```
 
 ## Add Virtual Network Addresses to /etc/hosts
@@ -163,7 +169,7 @@ Notes:
 - because of what we are trying to achieve we could perhaps try using "/31" pairs and treat them as point-to-point, but that would be complex and contentious, whereas this is vanilla networking.
 
 ```sh
-# PASTE
+# BEGIN PASTE
 cat >>/etc/hosts <<EOT
 # 'shadow' onion ip-addresses
 169.254.255.253 osite0.onion
@@ -171,6 +177,7 @@ cat >>/etc/hosts <<EOT
 169.254.255.245 osite2.onion
 169.254.255.241 osite3.onion
 EOT
+# END PASTE
 ```
 
 ## Disable IP Forwarding and Multihoming
@@ -196,9 +203,10 @@ It's basically all commented out anyway, so let's have a clean slate.
 do:
 
 ```sh
-# PASTE
+# BEGIN PASTE
 cp -p /etc/tor/torrc /etc/tor/torrc.orig
 cp /dev/null /etc/tor/torrc
+# END PASTE
 ```
 
 ## Constrain Tor SOCKS access to literally 127.0.0.1
@@ -206,12 +214,13 @@ cp /dev/null /etc/tor/torrc
 do:
 
 ```sh
-# PASTE
+# BEGIN PASTE
 cat >>/etc/tor/torrc <<EOT
 SOCKSPolicy accept 127.0.0.1
 SOCKSPolicy reject *
 #
 EOT
+# END PASTE
 ```
 
 ## Create Onion Addresses
@@ -220,7 +229,7 @@ EOT
 do:
 
 ```sh
-# PASTE
+# BEGIN PASTE
 cat >>/etc/tor/torrc <<EOT
 # ---- section for osite0.onion ----
 HiddenServiceDir /var/lib/tor/osite0/
@@ -239,6 +248,7 @@ HiddenServiceDir /var/lib/tor/osite3/
 HiddenServicePort 80 osite3.onion:80
 #
 EOT
+# END PASTE
 ```
 
 ...this should be safe since we're not actually running anything on port 80 yet.
@@ -248,8 +258,9 @@ EOT
 do:
 
 ```sh
-# PASTE
+# BEGIN PASTE
 /etc/init.d/tor restart
+# END PASTE
 ```
 
 This will create the hidden service directories cited above, etc
@@ -259,8 +270,9 @@ This will create the hidden service directories cited above, etc
 Wait 30+ seconds, and then do:
 
 ```sh
-# PASTE
+# BEGIN PASTE
 torsocks curl https://www.facebook.com/si/proxy/ ; echo ""
+# END PASTE
 ```
 
 ...this should print: `tor`
@@ -268,8 +280,9 @@ torsocks curl https://www.facebook.com/si/proxy/ ; echo ""
 Next, do:
 
 ```sh
-# PASTE
+# BEGIN PASTE
 torsocks curl https://www.facebookcorewwwi.onion/si/proxy/ ; echo ""
+# END PASTE
 ```
 
 ...this should print: `onion`
@@ -284,7 +297,7 @@ If your Tor daemon is slow to connect to the Tor network, you might want to wait
 do:
 
 ```sh
-# PASTE
+# BEGIN PASTE
 # settings
 NUMDUMMIES=4 # you can make this bigger if you want
 # for now
@@ -324,6 +337,7 @@ iface dummy3 inet static
   netmask 255.255.255.252
   broadcast 169.254.255.243
 EOT
+# END PASTE
 ```
 
 ## Create the Virtual IP interfaces
@@ -331,9 +345,10 @@ EOT
 do:
 
 ```sh
-# PASTE
+# BEGIN PASTE
 ifup -a
 ifconfig -a
+# END PASTE
 ```
 
 ...and you should see the four new network interfaces
@@ -345,23 +360,25 @@ First, make a backup of the hosts file: `cp /etc/hosts /etc/hosts,backup`
 Then: run this script:
 
 ```sh
-# PASTE
+# BEGIN PASTE
 for odir in /var/lib/tor/osite?/ ; do
 oname=`basename $odir`
 oaddr=`cat $odir/hostname`
 perl -pi~ -e "s/$oname.onion/$oaddr $oname/" /etc/hosts
 perl -pi~ -e "s/$oname.onion:/$oaddr:/" /etc/tor/torrc
 done
+# END PASTE
 ```
 
 Then test the resolution of `osite0` (etc) into IPv4-equivalent onion names:
 
 ```sh
-# PASTE
+# BEGIN PASTE
 ping -c 1 osite0
 ping -c 1 osite1
 ping -c 1 osite2
 ping -c 1 osite3
+# END PASTE
 ```
 
 For each address you should see something like this:
@@ -387,8 +404,9 @@ HiddenServicePort 80 zxd674r63j44zfj7.onion:80
 Do:
 
 ```sh
-# PASTE
+# BEGIN PASTE
 shutdown -r now
+# END PASTE
 ```
 
 If you are unwilling to do this, at least restart Tor with: `/etc/init.d/tor restart` - otherwise you will not pick up the changes that we just made to the `torrc` file.
@@ -420,7 +438,7 @@ The next logical step for the attacker would be to scan networks looking for mac
 `TODO:` consider explicit incoming packet blocks to the Tor daemon subnet addresses in case someone on the local LAN is forging traffic; probably best tied to the isolation of tor traffic using a dummy0 driver, separate everything out clearly.
 
 ```sh
-# PASTE
+# BEGIN PASTE
 sudo -i
 ufw enable
 ufw status verbose
@@ -428,6 +446,7 @@ ufw status verbose
 # okay:     ufw allow from $SPECIFIC_ADDRESS to $MY_IP_ADDRESS port 22
 # bad:      ufw allow from $SPECIFIC_ADDRESS to any port 22
 # terrible: ufw allow from any to any port 22
+# END PASTE
 ```
 
 ## Optional: Block outgoing network attempts other than Tor-related
@@ -439,8 +458,9 @@ ufw status verbose
 Do:
 
 ```sh
-# PASTE
+# BEGIN PASTE
 sudo netstat -a --inet --program  | awk '$6=="LISTEN" && $4~/^\*/'
+# END PASTE
 ```
 This will print a list of network sockets which are listening to all local network interfaces simultaneously; something like:
 
