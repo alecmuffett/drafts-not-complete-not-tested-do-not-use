@@ -58,6 +58,7 @@ Follow the instructions to install Ubuntu Server. Notes:
 * configure network interfaces carefully
 * set the hostname to be `invalid` (*verbatim*)
 * install an account for the sysadmin
+  * there probably is not much benefit in encrypting your home directory on a server
 * install security updates automatically
 * install both `standard system utilities` and (optionally) `OpenSSH server`
   * **DO NOT INSTALL ANY OTHER ADDITIONAL PACKAGES (YET)**
