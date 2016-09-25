@@ -90,19 +90,6 @@ In a browser elsewhere, retreive the instructions for installing Tor from https:
 * Do the gpg thing
 * Do the tor installation
 
-## Optional: Put the Tor configuration under revision control
-
-Because we all can make mistakes:
-
-```sh
-# BEGIN PASTE
-cd /etc/tor
-git init
-git add .
-git commit -m initial
-# END PASTE
-```
-
 ## Fake a Fully Qualified Domain Name for Email
 
 do:
@@ -143,6 +130,19 @@ env EDITOR=vi git config --global --edit
 ```
 
 ...and either uncomment the relevant lines or fix it properly
+
+## Optional: Put the Tor configuration under revision control
+
+Because we all can make mistakes:
+
+```sh
+# BEGIN PASTE
+cd /etc/tor
+git init
+git add .
+git commit -m initial
+# END PASTE
+```
 
 ## Standardise on UTC timezone
 
