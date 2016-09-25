@@ -77,11 +77,15 @@ aptitude upgrade
 
 In a browser elsewhere, retreive the instructions for installing Tor from https://www.torproject.org/docs/debian.html.en
 
-- Configure the APT repositories for Tor
-  - I recommend that you add the Tor repos to the end of config file
-  - I am not sure whether it makes a difference, but there was weirdness, once
-- Do the gpg thing
-- Do the tor installation
+* Set the menu options for: 
+  * run *Ubuntu Xenial Xerus* 
+  * and want *Tor* 
+  * and version *stable*
+* Configure the APT repositories for Tor
+  * I recommend that you add the Tor repos to the end of config file
+  * I am not sure whether it makes a difference, but there was weirdness, once
+* Do the gpg thing
+* Do the tor installation
 
 ## Optional: Put the Tor configuration under revision control
 
