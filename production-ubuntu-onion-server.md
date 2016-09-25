@@ -308,28 +308,24 @@ chmod 644 /etc/modules-load.d/dummy.conf /etc/modprobe.d/dummy.conf
 
 # for config
 cat >>/etc/network/interfaces <<EOT
-# osite0.onion
 auto dummy0
 iface dummy0 inet static
   address 169.254.255.253
   netmask 255.255.255.252
   broadcast 169.254.255.255
 
-# osite1.onion
 auto dummy1
 iface dummy1 inet static
   address 169.254.255.249
   netmask 255.255.255.252
   broadcast 169.254.255.251
 
-# osite2.onion
 auto dummy2
 iface dummy2 inet static
   address 169.254.255.245
   netmask 255.255.255.252
   broadcast 169.254.255.247
 
-# osite3.onion
 auto dummy3
 iface dummy3 inet static
   address 169.254.255.241
