@@ -65,7 +65,7 @@ Follow the instructions to install Ubuntu Server. Notes:
 
 ## Initial Setup
 
-Do:
+Log in, and do:
 
 ```sh
 # BEGIN PASTE
