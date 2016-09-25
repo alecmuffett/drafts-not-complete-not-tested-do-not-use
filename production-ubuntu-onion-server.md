@@ -277,18 +277,19 @@ The tests should **not** print: `normal` - if they do, it's a burp/error.
 If your Tor daemon is slow to connect to the Tor network, you might want to wait a bit longer and try again.
 
 ## Configure Virtual IP interfaces that will map to the Onions
+### (this is where the constraint of 4 example addresses is hardcoded)
 
 do:
 
 ```sh
 # PASTE
 # settings
-NUMDUMMIES=4
+NUMDUMMIES=4 # you can make this bigger if you want
 # for now
 modprobe dummy numdummies=$NUMDUMMIES
 # for reboot
 echo dummy >> /etc/modules-load.d/dummy.conf
-echo options dummy numdummies=4 >> /etc/modprobe.d/dummy.conf
+echo options dummy numdummies=$NUMDUMMIES >> /etc/modprobe.d/dummy.conf
 chmod 644 /etc/modules-load.d/dummy.conf /etc/modprobe.d/dummy.conf
 
 # for config
