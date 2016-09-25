@@ -23,6 +23,7 @@
 * we are not building a Docker container, nor Ansible, nor Qubes
   * platforms like those are a barrier to entry because "learning curve" apart from any other reason
   * developers are free to use the content of this document to roll their own platforms
+  * doubtless some day this can all be shrinkwrapped into a container, but let's get the process right, first
 * we are not forcing outbound TCP connection attempts to go over Tor
   * simpler to block them entirely, switch on/off normal TCP connections during sysadmin for updates
 
