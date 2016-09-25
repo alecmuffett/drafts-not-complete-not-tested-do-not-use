@@ -13,7 +13,9 @@ Goals:
 * with openssh for access to local network
 
 Non-Goals:
-* locale not forcibly standardised because not everyone will cope with english language
+* we are not forcibly standardising locale because not everyone will cope with english language
+* we are not building a Docker container, nor Ansible, nor Qubes
+  * platforms like those are a barrier to entry because "learning curve" apart from any other reason
 
 Todo:
 * screw down ssh access to specific interfaces?
