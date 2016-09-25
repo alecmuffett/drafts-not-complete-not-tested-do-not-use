@@ -288,6 +288,7 @@ NUMDUMMIES=4
 modprobe dummy numdummies=$NUMDUMMIES
 # for reboot
 echo "dummy numdummies=$NUMDUMMIES" >> /etc/modules
+depmod
 
 # for config
 cat >>/etc/network/interfaces <<EOT
