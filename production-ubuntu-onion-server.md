@@ -68,9 +68,7 @@ Follow the instructions to install Ubuntu Server. Notes:
 Log in, and do:
 
 ```sh
-# BEGIN PASTE
 sudo -i # to give you a root shell
-# END PASTE
 ```
 
 ...and then do...
