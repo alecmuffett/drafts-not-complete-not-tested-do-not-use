@@ -359,6 +359,8 @@ You've done all the work above in order to create onion-network-addresses and ea
 
 The next logical step for the attacker would be to scan networks looking for machines named `invalid.invalid` and attack them anyway, so it's wise for this server to be very limited in terms of to whom it will listen for incoming IP connections, if anyone; so we install a firewall and default-deny all incoming connection attempts:
 
+`TODO:` consider explicit incoming packet blocks to the Tor daemon subnet addresses in case someone on the local LAN is forging traffic; probably best tied to the isolation of tor traffic using a dummy0 driver, separate everything out clearly.
+
 ```sh
 sudo -i
 ufw enable
@@ -459,6 +461,8 @@ $ mknetmask 169.254.255.241/30
 169.254.255.242	net-169-254-255-240-slash-30-addr-2
 169.254.255.243	net-169-254-255-240-slash-30-broadcast
 ```
+
+Aside for fellow network programmers: yes I could screw this down even tighter and use a "/31" but 
 
 ----
 ## THIS DOCUMENT IS INCOMPLETE AND HAS NOT BEEN REVIEWED
