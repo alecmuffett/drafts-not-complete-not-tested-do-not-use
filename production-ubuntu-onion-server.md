@@ -85,8 +85,8 @@ In a browser elsewhere, retreive the instructions for installing Tor from https:
   * and version *stable*
   * and read what is now on the page.
 * Configure the APT repositories for Tor
-  * I recommend that you add the Tor repos to the end of config file
-  * I am not sure whether it makes a difference, but there was weirdness, once
+  * I recommend that you add the Tor repos to the end of the named config file
+  * I am not sure whether this makes a difference, but there was weirdness, once
 * Do the gpg thing
 * Do the tor installation
 
