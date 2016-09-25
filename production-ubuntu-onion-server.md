@@ -68,17 +68,11 @@ Follow the instructions to install Ubuntu Server. Notes:
 Log in, and do:
 
 ```sh
+# THESE MUST BE EXECUTED ONE LINE AT A TIME BECAUSE USER INPUT
 sudo -i # to give you a root shell
-```
-
-...and then do...
-
-```sh
-# BEGIN PASTE
 apt-get install aptitude
 aptitude update
 aptitude upgrade
-# END PASTE
 ```
 
 ## Installing Tor
@@ -132,9 +126,8 @@ The first couple of lines should probably now look like this:
 do:
 
 ```sh
-# BEGIN PASTE
+# THESE MUST BE EXECUTED ONE LINE AT A TIME BECAUSE USER INPUT
 aptitude install postfix mailutils
-# END PASTE
 ```
 
 * select `Local only` delivery
@@ -145,9 +138,8 @@ aptitude install postfix mailutils
 do:
 
 ```sh
-# BEGIN PASTE
+# THESE MUST BE EXECUTED ONE LINE AT A TIME BECAUSE USER INPUT
 env EDITOR=vi git config --global --edit
-# END PASTE
 ```
 
 ...and either uncomment the relevant lines or fix it properly
@@ -188,7 +180,7 @@ EOT
 
 ## Disable IP Forwarding and Multihoming
 
-Edit: `/etc/sysctl.conf` - and uncomment and set to 0 the following:
+Manual work! Edit: `/etc/sysctl.conf` - and uncomment and set to 0 the following:
 
 ```
 net.ipv4.ip_forward=0
