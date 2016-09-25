@@ -69,7 +69,14 @@ Log in, and do:
 
 ```sh
 # BEGIN PASTE
-sudo -i
+sudo -i # to give you a root shell
+# END PASTE
+```
+
+...and then do...
+
+```sh
+# BEGIN PASTE
 apt-get install aptitude
 aptitude update
 aptitude upgrade
