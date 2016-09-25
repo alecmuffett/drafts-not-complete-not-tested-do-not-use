@@ -12,12 +12,19 @@ Goals:
 * with a basic firewall of inbound connections
 * with openssh for access to local network
 
+Optional Goals
+* with Tor configuration files under Git revision control
+* with DNS-lookup tunneled over Tor
+* with outbound connection attempts blocked
+
 Non-Goals:
 * we are not forcibly standardising locale
   * not everyone will cope with english language
 * we are not building a Docker container, nor Ansible, nor Qubes
   * platforms like those are a barrier to entry because "learning curve" apart from any other reason
   * developers are free to use the content of this document to roll their own platforms
+* we are not forcing outbound TCP connection attempts to go over Tor
+  * simpler to block them entirely, switch on/off normal TCP connections during sysadmin for updates
 
 Todo:
 * screw down ssh access to specific interfaces?
@@ -338,24 +345,29 @@ There is a small risk here that bad system administrators will permit the conten
 
 ## Install a Firewall
 
-**TO BE DONE/ UNDER DEVELOPMENT**
+You've done all the work above in order to create onion-network-addresses and easy ways to configure applications that can talk to them consistently, with a minimum of useful metadata that could be used to identify the machine's location or "true" IP address which would open it up to (eg:) DDoS attack.
+
+The next logical step for the attacker would be to scan networks looking for machines named `invalid.invalid` and attack them anyway, so it's wise for this server to be very limited in terms of to whom it will listen for incoming IP connections, if anyone; so we install a firewall and default-deny all incoming connection attempts:
+
 ```sh
 sudo -i
 ufw enable
 ufw status verbose
-# consider adding stuff like this:
-# ufw allow from 192.168.0.1 to $MY_IP_ADDRESS port 22
-# ufw allow from 192.168.0.1 to any port 22
-# ufw allow from any to any port 22
+# consider very carefully before adding any stuff like this:
+# okay:     ufw allow from $SPECIFIC_ADDRESS to $MY_IP_ADDRESS port 22
+# bad:      ufw allow from $SPECIFIC_ADDRESS to any port 22
+# terrible: ufw allow from any to any port 22
 ```
 
-## Redirect DNS over Tor
+## Optional: Redirect DNS over Tor
 
-**TO BE DONE**
+Some software you use may get tricked into performing DNS lookups of specially-crafted domain names, in order to watch-for and determine the IP address of the server. The easiest solution for this is to make outgoing DNS requests over Tor.
 
-## More Security Stuff TBD?
+`WORK IN PROGRESS`
 
-**TO BE DONE**
+## Optional: Block outgoing network attempts other than Tor-related
+
+`WORK IN PROGRESS`
 
 ## Check For Promiscuous Network Listeners
 
