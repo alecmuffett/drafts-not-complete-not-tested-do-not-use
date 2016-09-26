@@ -429,9 +429,8 @@ See the **Check Tor Connectivity** section above. Do that again.
 Do:
 
 ```sh
-# BEGIN PASTE
+# THESE MUST BE EXECUTED ONE LINE AT A TIME BECAUSE USER INPUT
 sudo netstat -a --inet --program  | awk '$6=="LISTEN" && $4~/^\*/'
-# END PASTE
 ```
 This will print a list of network sockets which are listening to all local network interfaces simultaneously; in theory you will only see `sshd` and it will look something like:
 
