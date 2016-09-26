@@ -50,7 +50,7 @@ Follow the instructions to install Ubuntu Server. Notes:
 
 * configure network interfaces carefully
 * set the hostname to be `invalid` (*verbatim*)
-* configure timezone and keyboards and disk layout as you see fit
+* configure timezone, keyboards, disk layout, and boot-loader as you see fit
   * we shall standardise timezone later
 * create an account for the sysadmin
   * there probably is not much benefit in encrypting your home directory on a server
