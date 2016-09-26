@@ -1,5 +1,5 @@
 ----
-## THIS DOCUMENT IS IN BETA
+## THIS DOCUMENT IS IN BETA. COMMENTS AT: https://github.com/alecmuffett/drafts-not-complete-not-tested-do-not-use/issues/2
 ----
 
 # A Basic "Production" Ubuntu Server for Onion Sites
@@ -526,5 +526,5 @@ $ mknetmask 169.254.255.241/30
 Aside for fellow network programmers: yes I could screw this down even tighter and use a "/31" but
 
 ----
-## THIS DOCUMENT IS IN BETA
+## THIS DOCUMENT IS IN BETA. COMMENTS AT: https://github.com/alecmuffett/drafts-not-complete-not-tested-do-not-use/issues/2
 ----
