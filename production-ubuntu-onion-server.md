@@ -350,7 +350,7 @@ ifconfig -a
 
 You've done the work above in order to create onion-network-addresses and create easy ways to configure applications that can talk to them consistently, with a reasonable minimum of useful metadata that could be used to identify the machine's location or "true" IP address which would open it up to (eg:) DDoS attack.
 
-The next logical step for the attacker would be to scan networks looking for machines named `invalid.invalid` and attack them anyway, so it's wise for this server to be very limited in terms of to whom it will listen for incoming IP connections, if anyone
+The next logical step for the attacker would be to scan networks looking for machines named `invalid.invalid` and attack them anyway, so it's wise for this server to be very limited in terms of to whom it will listen for incoming IP connections.
 
 Therefore we install a firewall and default-deny all incoming connection attempts:
 
@@ -498,7 +498,7 @@ Listen a1a1a1a1a1a1a1a1.onion:80 # or equivalent IP address
 Listen b2b2b2b2b2b2b2b2.onion:80 # or equivalent IP address
 ```
 
-...and the processes will retain separation and may even **enforce access control** - that requests to them must come from onion A1, or onion B2, or tuples thereof, respectively.
+...and the processes will retain separation and may even **enforce access control** - that requests to them must come from/via onion A1, or onion B2, or tuples thereof, respectively.
 
 ### Next Steps
 
