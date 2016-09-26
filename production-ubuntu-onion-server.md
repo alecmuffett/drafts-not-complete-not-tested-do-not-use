@@ -349,7 +349,27 @@ ifconfig -a
 
 ...and you should see the four new network interfaces
 
-## Tor Finalisation - **THE GRAND RENAMING**
+## Install a Firewall to block incoming network connections
+
+You've done the work above in order to create onion-network-addresses and create easy ways to configure applications that can talk to them consistently, with a reasonable minimum of useful metadata that could be used to identify the machine's location or "true" IP address which would open it up to (eg:) DDoS attack.
+
+The next logical step for the attacker would be to scan networks looking for machines named `invalid.invalid` and attack them anyway, so it's wise for this server to be very limited in terms of to whom it will listen for incoming IP connections, if anyone
+
+Therefore we install a firewall and default-deny all incoming connection attempts:
+
+```sh
+# THESE MUST BE EXECUTED ONE LINE AT A TIME BECAUSE USER INPUT
+sudo -i
+ufw enable
+ufw status verbose
+# consider very carefully before adding any stuff like this:
+# okay:     ufw allow from $SPECIFIC_ADDRESS to $MY_IP_ADDRESS port 22
+# bad:      ufw allow from $SPECIFIC_ADDRESS to any port 22
+# terrible: ufw allow from any to any port 22
+# watch GitHub for future documents expanding on these matters
+```
+
+## Tor Finalisation - **THE GRAND RENAMING** -
 
 do:
 
@@ -404,36 +424,11 @@ shutdown -r now
 # END PASTE
 ```
 
-If you are unwilling to do this, at least restart Tor with: `/etc/init.d/tor restart` - otherwise you will not pick up the changes that we just made to the `torrc` file.
+If you are unwilling to do this, at least restart Tor with: `/etc/init.d/tor restart` - otherwise you will not pick up the changes that we just made to the `torrc` file.  But it's better to reboot and test everything
 
-## Optional: Redirect DNS over Tor
+## After reboot, Re-Check Tor Connectivity
 
-Some software you use may get tricked into performing DNS lookups of specially-crafted domain names, in order to watch-for and determine the IP address of the server. The easiest solution for this is to make outgoing DNS requests over Tor.
-
-`WORK IN PROGRESS`
-
-## Install a Firewall, block incoming network connections
-
-You've done all the work above in order to create onion-network-addresses and easy ways to configure applications that can talk to them consistently, with a minimum of useful metadata that could be used to identify the machine's location or "true" IP address which would open it up to (eg:) DDoS attack.
-
-The next logical step for the attacker would be to scan networks looking for machines named `invalid.invalid` and attack them anyway, so it's wise for this server to be very limited in terms of to whom it will listen for incoming IP connections, if anyone; so we install a firewall and default-deny all incoming connection attempts:
-
-`TODO:` consider explicit incoming packet blocks to the Tor daemon subnet addresses in case someone on the local LAN is forging traffic; probably best tied to the isolation of tor traffic using a dummy0 driver, separate everything out clearly.
-
-```sh
-# THESE MUST BE EXECUTED ONE LINE AT A TIME BECAUSE USER INPUT
-sudo -i
-ufw enable
-ufw status verbose
-# consider very carefully before adding any stuff like this:
-# okay:     ufw allow from $SPECIFIC_ADDRESS to $MY_IP_ADDRESS port 22
-# bad:      ufw allow from $SPECIFIC_ADDRESS to any port 22
-# terrible: ufw allow from any to any port 22
-```
-
-## Optional: Block outgoing network connections other than Tor-related
-
-`WORK IN PROGRESS`
+See the **Check Tor Connectivity** section above. Do that again.
 
 ## Check For Promiscuous Network Listeners
 
@@ -444,13 +439,15 @@ Do:
 sudo netstat -a --inet --program  | awk '$6=="LISTEN" && $4~/^\*/'
 # END PASTE
 ```
-This will print a list of network sockets which are listening to all local network interfaces simultaneously; something like:
+This will print a list of network sockets which are listening to all local network interfaces simultaneously; in theory you will only see `sshd` and it will look something like:
 
 ```
 tcp  0  0 *:ssh  *:*  LISTEN  1276/sshd
 ```
 
 This tells you that process ID `1276` is an instance of `sshd`  which is listening to the `ssh` port on all network interfaces.  You may want to consider the security risks, and perhaps reconfigure this (and other) programs to listen only to specific, especially non-onion, network interfaces.
+
+If you unexpectedly see more than `sshd`, ask in the forums what it is.
 
 ## ---- Finish ----
 
