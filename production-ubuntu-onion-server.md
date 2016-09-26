@@ -354,7 +354,6 @@ Therefore we install a firewall and default-deny all incoming connection attempt
 
 ```sh
 # THESE MUST BE EXECUTED ONE LINE AT A TIME BECAUSE USER INPUT
-sudo -i
 ufw enable
 ufw status verbose
 # consider very carefully before adding any stuff like this:
