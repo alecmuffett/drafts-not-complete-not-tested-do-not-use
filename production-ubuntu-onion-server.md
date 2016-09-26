@@ -477,7 +477,9 @@ This has two downsides:
 1. connections to the Onion Address on port 80 will appear to come from `localhost` which may confer extra trustworthiness or special/privileged access to whatever process is listening on port 80
 1. (restating the above) the process listening on port 80 cannot distinguish whether the connection actually came from `localhost` or from an onion address, and if the latter obviously cannot distinguish from *which* onion address
 
-So: with this design the system administrator may run multiple onion addresses (eg: `a1a1a1a1a1a1a1a1.onion` and `b2b2b2b2b2b2b2b2.onion`) and configure Tor thusly:
+But there's a feature in Unix/Linux which we can use, that when a TCP connection is made to an internal network interface on a system, both the source and destination IP addresses of that connection are set to match the IP address of the interface. This allows us to disambiguate onion connections from each-other and from `localhost`. 
+
+So with the design specified in this document the system administrator may run multiple onion addresses (eg: `a1a1a1a1a1a1a1a1.onion` and `b2b2b2b2b2b2b2b2.onion`) on one system and configure Tor thusly:
 
 ```
 # ---- section for a1a1a1a1a1a1a1a1.onion ----
@@ -488,15 +490,15 @@ HiddenServiceDir /var/lib/tor/osite2/
 HiddenServicePort 80 b2b2b2b2b2b2b2b2.onion:80
 ```
 
-...and then define (say) different Apache daemons with:
+...and then may define (say) separate Apache daemons with:
 
 ```
 Listen a1a1a1a1a1a1a1a1.onion:80 # or equivalent IP address
-...
+#...and separately...
 Listen b2b2b2b2b2b2b2b2.onion:80 # or equivalent IP address
 ```
 
-...and they will be separate, plus the processes can **enforce access control**, that requests to them must come from onion A1, or onion B2, or tuples thereof, respectively.
+...and the processes will retain separation and may even **enforce access control** - that requests to them must come from onion A1, or onion B2, or tuples thereof, respectively.
 
 ### Next Steps
 
