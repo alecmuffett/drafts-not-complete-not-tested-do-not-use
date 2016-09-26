@@ -53,7 +53,7 @@ Follow the instructions to install Ubuntu Server. Notes:
   * note: configure timezone, keyboards, layout & boot-loader as you see fit
   * note: we shall standardise timezone later
 * create an account for the sysadmin
-  * there probably is not much benefit in encrypting your home directory on a server
+  * note: there probably is not much benefit in encrypting your home directory on a server.
 * select: `install security updates automatically`
 * install both `standard system utilities` and (optionally) `OpenSSH server`
   * **DO NOT INSTALL ANY OTHER ADDITIONAL PACKAGES (YET)**
