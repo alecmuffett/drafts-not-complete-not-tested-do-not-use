@@ -474,7 +474,7 @@ HiddenServicePort 80 localhost:80
 
 This has two downsides:
 
-1. connections to the Onion Address on port 80 will appear to come from `localhost` which may confer extra trustworthiness or special/privileged access to whatever process is listening on port 80
+1. connections to the Onion Address on port 80 will appear to come from `localhost` which may falsely convey extra trustworthiness or special/privileged access to whatever process is listening on port 80
 1. (restating the above) the process listening on port 80 cannot distinguish whether the connection actually came from `localhost` or from an onion address, and if the latter obviously cannot distinguish from *which* onion address
 
 But there's a feature in Unix/Linux which we can use, that when a TCP connection is made to an internal network interface on a system, both the source and destination IP addresses of that connection are set to match the IP address of the interface. This allows us to disambiguate onion connections from each-other and from `localhost`. 
