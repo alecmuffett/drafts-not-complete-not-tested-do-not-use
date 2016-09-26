@@ -83,7 +83,8 @@ In a browser elsewhere, retreive the instructions for installing Tor from https:
   * I recommend that you add the tor repositories into a new file
   * Use: `/etc/apt/sources.list.d/tor.list` or similar
 * Do the gpg thing
-* Do the tor installation
+* Do the apt update thing
+* Do the tor installation thing
 
 ## Fake a Fully Qualified Domain Name for Email
 
