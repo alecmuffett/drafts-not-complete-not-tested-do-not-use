@@ -14,8 +14,6 @@
 
 #### Optional Goals
 * with Tor configuration files under Git revision control
-* with DNS-lookup tunneled over Tor
-* with outbound connection attempts blocked
 
 #### Non-Goals:
 * we are not forcibly standardising locale
@@ -25,15 +23,10 @@
   * developers are free to use the content of this document to roll their own platforms
   * doubtless some day this can all be shrinkwrapped into a container, but let's get the process right, first
 * we are not forcing outbound TCP connection attempts to go over Tor
-  * simpler to block them entirely, switch on/off normal TCP connections during sysadmin for updates
+  * see future document for options in this space
 
 #### Todo:
-* screw down ssh access to specific interfaces?
 * offer optional instruction on standardising locale?
-* optional redirect DNS over Tor, because deanon via lookups?
-* rework the /etc/interfaces hacks to be less clunky?
-* check that rp_filter checks on the internal loopback offer the same value as strict destination multihoming*
-* other work in progress
 
 #### Notes:
 * text marked *"verbatim"* should be carefully typed/pasted exactly as seen on screen
