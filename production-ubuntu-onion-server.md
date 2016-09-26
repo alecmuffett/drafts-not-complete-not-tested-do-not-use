@@ -1,3 +1,7 @@
+----
+## THIS DOCUMENT IS IN BETA
+----
+
 # A Basic "Production" Ubuntu Server for Onion Sites
 
 #### Goals:
@@ -33,11 +37,6 @@
   * generally it is for purposes of security or for later auto-editing
 * code that can be pasted is between `# BEGIN PASTE` and `# END PASTE`
   * if you are (rightly) worried about pasting from a web browser, git-clone the document and use that.
-
-----
-## THIS DOCUMENT IS INCOMPLETE AND HAS NOT BEEN REVIEWED
-## DO NOT USE THIS DOCUMENT OR YOU MAY BE CYBERSPANKED
-----
 
 ## Install Ubuntu Server
 
@@ -527,6 +526,5 @@ $ mknetmask 169.254.255.241/30
 Aside for fellow network programmers: yes I could screw this down even tighter and use a "/31" but
 
 ----
-## THIS DOCUMENT IS INCOMPLETE AND HAS NOT BEEN REVIEWED
-## DO NOT USE THIS DOCUMENT OR YOU MAY BE CYBERSPANKED
+## THIS DOCUMENT IS IN BETA
 ----
