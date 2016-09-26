@@ -221,6 +221,8 @@ EOT
 ## Create Onion Addresses
 ### (we create 4 as an example)
 
+Annoyingly, tor will not create a HiddenServiceDir unless a corresponding HiddenServicePort is defined, so we will have to define them temporarily and then switch them off later. This should be safe since nothing is listening to port 80 on the machine at the moment.
+
 do:
 
 ```sh
@@ -408,6 +410,16 @@ root@invalid:~# grep zxd674r63j44zfj7.onion /etc/tor/torrc
 HiddenServicePort 80 zxd674r63j44zfj7.onion:80
 ```
 
+## Disable the temporary HiddenServicePorts
+
+do:
+
+```sh
+# BEGIN PASTE
+perl -pi~ -e 's/^HiddenServicePort/#HiddenServicePort/' /etc/tor/torrc
+# END PASTE
+```
+
 ## Reboot to apply all changes and new executables
 
 Do:
@@ -420,7 +432,7 @@ shutdown -r now
 
 If you are unwilling to do this, at least restart Tor with: `/etc/init.d/tor restart` - otherwise you will not pick up the changes that we just made to the `torrc` file.  But it's better to reboot and test everything
 
-## After reboot, Re-Check Tor Connectivity
+## After reboot, Re-Check Outbound Tor Connectivity
 
 See the **Check Tor Connectivity** section above. Do that again.
 
@@ -444,15 +456,49 @@ If you unexpectedly see more than `sshd`, ask in the forums what it is.
 
 ## ---- Finish ----
 
-You now have a server which is configured with (up to) four onion addresses.
-
-You may disable any onion addresses that you are not using (by editing `/etc/tor/torrc`) or you may have avoided creating them in the first place.
+You now have a server which is configured with (up to) four onion addresses. You may disable any onion addresses that you are not using (by editing `/etc/tor/torrc`) or you may have avoided creating them in the first place.
 
 The reason for creating IPv4 addresses to act as "shadows" for the onion addresses is one of Unix access control - eg: Apache "Listen" and VirtualHost directives can be configured clearly and unambiguously with the given Onion name, which will resolve also locally and (hopefully) avoid complaints.
 
-Also: applications which enforce access-control on the basis of source IP address will inherit and resolve the name of the Onion address through which the traffic arrived, by virtue of the Tor daemon connecting to the correspondingly-named IP address.
+Also: applications which enforce access-control on the basis of source IP address can be configured inherit and resolve the name of the Onion address through which the traffic arrived, by virtue of the Tor daemon connecting to the correspondingly-named IP address.
 
 There is a small risk here that bad system administrators will permit the contents of (eg:) /var/lib/tor/oside0/hostname to get out of sync with either/both of `/etc/hosts` or `/etc/tor/torrc`.  So don't let that happen.
+
+### How This Works
+
+On an less "advanced" onion server, the `torrc` would probably contain configurations like:
+
+```
+HiddenServicePort 80 localhost:80
+```
+
+This has two downsides:
+
+1. connections to the Onion Address on port 80 will appear to come from `localhost` which may confer extra trustworthiness or special/privileged access to whatever process is listening on port 80
+1. (restating the above) the process listening on port 80 cannot distinguish whether the connection actually came from `localhost` or from an onion address, and if the latter obviously cannot distinguish from *which* onion address
+
+So: with this design the system administrator may run multiple onion addresses (eg: `a1a1a1a1a1a1a1a1.onion` and `b2b2b2b2b2b2b2b2.onion`) and configure Tor thusly:
+
+```
+# ---- section for a1a1a1a1a1a1a1a1.onion ----
+HiddenServiceDir /var/lib/tor/osite1/
+HiddenServicePort 80 a1a1a1a1a1a1a1a1.onion:80
+# ---- section for b2b2b2b2b2b2b2b2.onion ----
+HiddenServiceDir /var/lib/tor/osite2/
+HiddenServicePort 80 b2b2b2b2b2b2b2b2.onion:80
+```
+
+...and then define (say) different Apache daemons with:
+
+```
+Listen a1a1a1a1a1a1a1a1.onion:80 # or equivalent IP address
+...
+Listen b2b2b2b2b2b2b2b2.onion:80 # or equivalent IP address
+```
+
+...and they will be separate, plus the processes can **enforce access control**, that requests to them must come from onion A1, or onion B2, or tuples thereof, respectively.
+
+### Next Steps
 
 You should be good to install actual programs (eg: webservers) on the server:
 
