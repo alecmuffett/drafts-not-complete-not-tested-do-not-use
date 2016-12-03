@@ -316,6 +316,13 @@ See notes below re: 12-node, 48-core descriptors.
 
 Given the potential for attack if any systemisation is used, it's perhaps safest just to randomise the descriptors each and every time they are published, to hide the internal structure of the cluster.
 
+#### Possible Algorithm for OnionBalance configurations
+
+1. Where you choose to support `N` tor daemons, choose smallest integer `M` where `(N * M) > 60` 
+1. Configure each tor daemon to announce M introduction points
+1. Each time you publish an OB descriptor, scrape all `N * M` introduction points, sort randomly, choose the first 60
+1. Create 6x descriptors, each of 10 introduction points, and emplace them on the HSDir ring
+
 # Footnotes Todo
 
 * plan to do the test both with, and without, single-hop-onion configs
