@@ -219,7 +219,7 @@ These machines won't be serving web traffic, so we're free to eat all the CPU an
 Obvious deployment strategies:
 
 * 4 daemons per machine = 1 daemon per core
-* 5 daemons per machine = 1 daemon per core + 1 spare to prevent scheduler `stalls`
+* 5 daemons per machine = 1 daemon per core + 1 spare to prevent scheduler "stalls"
 * 8 daemons per machine = 2 daemons per core
 
 #### Wild Guess Time
@@ -319,3 +319,8 @@ Unless something clearly better arises, or some skew in descriptor-retreival bec
 # Footnotes Todo
 
 * plan to do the test both with, and without, single-hop-onion configs
+* future scaling:
+  * add a second cluster (machines G/H/I/J/K/L) and use them to replace the `y` introduction points
+  * future/better
+    * implement @TvdW's suggestion of hacking Tor daemon to hand-off requests received from the introduction point, to other machines in the cluster
+    * then rearchitect as N introduction points handing off to M callback servers
