@@ -324,3 +324,26 @@ Unless something clearly better arises, or some skew in descriptor-retreival bec
   * future/better
     * implement @TvdW's suggestion of hacking Tor daemon to hand-off requests received from the introduction point, to other machines in the cluster
     * then rearchitect as N introduction points handing off to M callback servers
+
+
+#### hypothetical 24-machine descriptor layout
+
+```
+$ cat q
+#!/bin/sh
+for daemon in 1 2 3 4 5 ; do
+    for machine in A G B H C I D J E K F L ; do
+        echo $machine$daemon
+    done
+done |
+    awk '{ printf("%s ", $1)} NR%10==0 {print "" }' |
+    cat -n
+$ sh q
+     1	A1 G1 B1 H1 C1 I1 D1 J1 E1 K1
+     2	F1 L1 A2 G2 B2 H2 C2 I2 D2 J2
+     3	E2 K2 F2 L2 A3 G3 B3 H3 C3 I3
+     4	D3 J3 E3 K3 F3 L3 A4 G4 B4 H4
+     5	C4 I4 D4 J4 E4 K4 F4 L4 A5 G5
+     6	B5 H5 C5 I5 D5 J5 E5 K5 F5 L5
+```
+
