@@ -1,11 +1,11 @@
 # Goals
 
-- Generate sustained 500Mbits of TCP traffic
+- Serve sustained 500Mbits of TCP traffic
   - not HTTP, just plain TCP traffic with boring content
-- served over onion connections
+- Over Onion Connections
   - "vanilla" latest Tor with a basic config
-- from a "single" onion address
-  - use OnionBalance
+- from a "single" Onion address
+  - using OnionBalance
 
 # Hardware
 
