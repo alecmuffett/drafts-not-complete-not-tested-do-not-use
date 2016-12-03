@@ -226,65 +226,73 @@ Obvious deployment strategies:
 
 For the moment let's go with the 5 daemons per machine, which sorta-guarantees CPU occupancy (0% idle) without necessarily thrashing; then we ramp up/down/stay-still as results warrant.
 
-This gives us 5 * 6 = 30 daemons.  How do we construct the six descriptors?
+This gives us 5 * 6 = 30 daemons.  
 
-### naive descriptor layout
+### How do we construct the six descriptors
+
+We have to make 6 descriptors each containing 10 introduction points corresponding to our service.
+
+That's 60 introduction points, so we should construct our individual daemons to create two introduction points apiece; we could do one introduction point per daemon and repeat that data twice, but that's a potential choke on access to one of our daemons.
+
+For each daemon, name its two introduction points as `x` and `y`; they is no reason obvious to me to worry about preferring one over the other for any given daemon.
+
+#### naive descriptor layout
 
 ```
 #!/bin/sh
-for round in 1 2 ; do
-    for machine in a b c d e f ; do
+for intro in x y ; do
+    for machine in A B C D E F ; do
         for daemon in 1 2 3 4 5 ; do
-            echo $machine$daemon
+            echo $machine$daemon$intro
         done
     done
 done |
     awk '{ printf("%s ", $1)} NR%10==0 {print "" }' |
     cat -n
 $ sh q
-     1	a1 a2 a3 a4 a5 b1 b2 b3 b4 b5
-     2	c1 c2 c3 c4 c5 d1 d2 d3 d4 d5
-     3	e1 e2 e3 e4 e5 f1 f2 f3 f4 f5
-     4	a1 a2 a3 a4 a5 b1 b2 b3 b4 b5
-     5	c1 c2 c3 c4 c5 d1 d2 d3 d4 d5
-     6	e1 e2 e3 e4 e5 f1 f2 f3 f4 f5
+     1	A1x A2x A3x A4x A5x B1x B2x B3x B4x B5x
+     2	C1x C2x C3x C4x C5x D1x D2x D3x D4x D5x
+     3	E1x E2x E3x E4x E5x F1x F2x F3x F4x F5x
+     4	A1y A2y A3y A4y A5y B1y B2y B3y B4y B5y
+     5	C1y C2y C3y C4y C5y D1y D2y D3y D4y D5y
+     6	E1y E2y E3y E4y E5y F1y F2y F3y F4y F5y
 ```
 
 This is a bad descriptor layout; if (say) descriptors 1 and 4 get preferred over all others, then machines A and B will be burning CPU and the other four machines will be idle.
 
-### better descriptor layout
+#### better descriptor layout
 
 ```
-$ cat q
 #!/bin/sh
-for round in 1 2 ; do
+for intro in x y ; do
     for daemon in 1 2 3 4 5 ; do
-        for machine in a b c d e f ; do
-            echo $machine$daemon
+        for machine in A B C D E F ; do
+            echo $machine$daemon$intro
         done
     done
 done |
     awk '{ printf("%s ", $1)} NR%10==0 {print "" }' |
     cat -n
 $ sh q
-     1	a1 b1 c1 d1 e1 f1 a2 b2 c2 d2
-     2	e2 f2 a3 b3 c3 d3 e3 f3 a4 b4
-     3	c4 d4 e4 f4 a5 b5 c5 d5 e5 f5
-     4	a1 b1 c1 d1 e1 f1 a2 b2 c2 d2
-     5	e2 f2 a3 b3 c3 d3 e3 f3 a4 b4
-     6	c4 d4 e4 f4 a5 b5 c5 d5 e5 f5
+     1	A1x B1x C1x D1x E1x F1x A2x B2x C2x D2x
+     2	E2x F2x A3x B3x C3x D3x E3x F3x A4x B4x
+     3	C4x D4x E4x F4x A5x B5x C5x D5x E5x F5x
+     4	A1y B1y C1y D1y E1y F1y A2y B2y C2y D2y
+     5	E2y F2y A3y B3y C3y D3y E3y F3y A4y B4y
+     6	C4y D4y E4y F4y A5y B5y C5y D5y E5y F5y
 ```
 
 This is much improved; again imagine that descriptors 1 and 4 get preferred over all others, then machines C/D/E/F will get proportionately more traffic than A and B, because in a given descriptor (eg: `a1 b1 c1 d1 e1 f1 a2 b2 c2 d2`) machines C/D/E/F each get two mentions, whereas A/B only get one mention.
 
-### randomised descriptor layout
+#### randomised descriptor layout
 
 ```
+$ cat q
 #!/bin/sh
-for round in 1 2 ; do
+for intro in x y ; do
     for daemon in 1 2 3 4 5 ; do
-        for machine in a b c d e f ; do
-            echo $machine$daemon
+        for machine in A B C D E F ; do
+            echo $machine$daemon$intro
         done
     done
 done |
@@ -292,13 +300,14 @@ done |
     awk '{ printf("%s ", $1)} NR%10==0 {print "" }' |
     cat -n
 $ sh q
-     1	b1 e4 c1 c5 f3 a5 b1 b2 a2 a4
-     2	a3 b5 a3 d1 f4 a2 a1 e1 c3 d2
-     3	e3 f5 d2 e2 d5 e1 c2 d5 e3 f2
-     4	e4 b3 c3 f4 c4 d4 c2 a1 b4 c5
-     5	c4 a4 d1 f1 f1 e5 c1 b3 f5 b5
-     6	b2 e2 f2 d4 a5 d3 b4 d3 f3 e5
+     1	A3x C1x C1y F5x D5x D2x B4x B4y D3x E1x
+     2	A2y F1y F2y A1x A4y F4x F4y C3y E3y D3y
+     3	F3x B1x D2y C3x E4y C4y E5y F2x C4x A5y
+     4	C5x C2x D5y F5y E2y A3y C2y B5y D4y B3x
+     5	E5x E1y F1x A5x B5x A1y B3y E2x F3y A4x
+     6	D4x D1x E4x D1y B2y E3x A2x B2x B1y C5y
 ```
 
 This is at the whim of the gods, but with random sorting the systematic hotspots are now random hotspots
 
+####
