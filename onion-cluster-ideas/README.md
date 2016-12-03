@@ -26,7 +26,7 @@ So: how about Raspberry Pi?
 * 4x USB
 * bulk retail price: £28 each
 
-There is a culture of "clustering" RPi - do a google search on "raspberry pi bramble".
+There is a culture of "clustering" RPi - do a [google search on "raspberry pi bramble"](https://www.google.co.uk/search?q=raspberry+pi+bramble).
 
 # What can 1x RPi do?
 
