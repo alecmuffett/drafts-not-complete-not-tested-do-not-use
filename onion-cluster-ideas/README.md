@@ -195,8 +195,108 @@ Also: 6x RPi at 96.8Mbit = 580.8Mbit hardware bandwidth cap, so that also seems 
 
 # Tor Deployment Architecture
 
-TBD.  
+TBD. If you are reading this and know what `Direct Server Return Scaling` means, you'll have a fair idea of where I am going with this. OnionBalance gives you something similar to DSR, but this will have a slight Tor twist.
 
-If you are reading this and know what `Direct Server Return Scaling` means, you'll have a fair idea of where I am going with this. 
+## Notes to fill-in later
 
-OnionBalance gives you something similar to DSR, but this will have a slight Tor twist.
+* probably use Wifi as a static-IP private "backplane" network, leave the ethers free for Onion traffic.
+* dhcp the ethers
+* we will have 6 machines => 24 cores
+  * call the machines: `a`, `b`, `c`...
+  * number the tor daemons on each machine as (eg:) `1..4` => 4 daemons
+  * defer the question of how many daemons vs: how many cores, for a moment
+* maximum descriptor space in OnionBalance is 10 Introduction Points per descriptor
+  * 10 Introduction Points x 6 distinct descriptors (banked 2x3) => 60 Intro Points
+* we can slice the introduction point space in several ways:
+  * 1 introduction point = 1 daemon
+  * 2+ introduction points = 1 daemons
+  * mixture of the above
+ 
+ ## How many Tor Daemons per machine?
+ 
+These machines won't be serving web traffic, so we're free to eat all the CPU and bus bandwidth for pushing packets out the door; otherwise it would be sane to leave some resources free.
+ 
+Obvious deployment strategies:
+
+* 4 daemons per machine = 1 daemon per core
+* 5 daemons per machine = 1 daemon per core + 1 spare to prevent scheduler `stalls`
+* 8 daemons per machine = 2 daemons per core
+
+wild guess: for the moment let's go with the 5 daemons per machine, which sorta-guarantees CPU occupancy (0% idle) without necessarily thrashing; then we ramp up/down/stay-still as results warrant.
+
+This gives us 5 * 6 = 30 daemons.  How do we construct the six descriptors?
+
+### naive descriptor layout
+
+```
+#!/bin/sh
+for round in 1 2 ; do
+    for machine in a b c d e f ; do
+        for daemon in 1 2 3 4 5 ; do
+            echo $machine$daemon
+        done
+    done
+done |
+    awk '{ printf("%s ", $1)} NR%10==0 {print "" }' |
+    cat -n
+$ sh q
+     1	a1 a2 a3 a4 a5 b1 b2 b3 b4 b5
+     2	c1 c2 c3 c4 c5 d1 d2 d3 d4 d5
+     3	e1 e2 e3 e4 e5 f1 f2 f3 f4 f5
+     4	a1 a2 a3 a4 a5 b1 b2 b3 b4 b5
+     5	c1 c2 c3 c4 c5 d1 d2 d3 d4 d5
+     6	e1 e2 e3 e4 e5 f1 f2 f3 f4 f5
+```
+
+This is a bad descriptor layout; if (say) descriptors 1 and 4 get preferred over all others, then machines A and B will be burning CPU and the other four machines will be idle.
+
+### better descriptor layout
+
+```
+$ cat q
+#!/bin/sh
+for round in 1 2 ; do
+    for daemon in 1 2 3 4 5 ; do
+        for machine in a b c d e f ; do
+            echo $machine$daemon
+        done
+    done
+done |
+    awk '{ printf("%s ", $1)} NR%10==0 {print "" }' |
+    cat -n
+$ sh q
+     1	a1 b1 c1 d1 e1 f1 a2 b2 c2 d2
+     2	e2 f2 a3 b3 c3 d3 e3 f3 a4 b4
+     3	c4 d4 e4 f4 a5 b5 c5 d5 e5 f5
+     4	a1 b1 c1 d1 e1 f1 a2 b2 c2 d2
+     5	e2 f2 a3 b3 c3 d3 e3 f3 a4 b4
+     6	c4 d4 e4 f4 a5 b5 c5 d5 e5 f5
+```
+
+This is much improved; again imagine that descriptors 1 and 4 get preferred over all others, then machines C/D/E/F will get proportionately more traffic than A and B, because in a given descriptor (eg: `a1 b1 c1 d1 e1 f1 a2 b2 c2 d2`) machines C/D/E/F each get two mentions, whereas A/B only get one mention.
+
+### randomised descriptor layout
+
+```
+#!/bin/sh
+for round in 1 2 ; do
+    for daemon in 1 2 3 4 5 ; do
+        for machine in a b c d e f ; do
+            echo $machine$daemon
+        done
+    done
+done |
+    randsort |
+    awk '{ printf("%s ", $1)} NR%10==0 {print "" }' |
+    cat -n
+$ sh q
+     1	b1 e4 c1 c5 f3 a5 b1 b2 a2 a4
+     2	a3 b5 a3 d1 f4 a2 a1 e1 c3 d2
+     3	e3 f5 d2 e2 d5 e1 c2 d5 e3 f2
+     4	e4 b3 c3 f4 c4 d4 c2 a1 b4 c5
+     5	c4 a4 d1 f1 f1 e5 c1 b3 f5 b5
+     6	b2 e2 f2 d4 a5 d3 b4 d3 f3 e5
+```
+
+This is at the whim of the gods, but with random sorting the systematic hotspots are now random hotspots
+
