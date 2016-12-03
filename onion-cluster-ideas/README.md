@@ -313,3 +313,9 @@ This is at the whim of the gods, but with random sorting the systematic hotspots
 ### Descriptor Layout Conclusion
 
 Unless something clearly better arises, or some skew in descriptor-retreival becomes apparent, let's go with the 'Better' non-random solution, above.
+
+
+
+# Footnotes Todo
+
+* plan to do the test both with, and without, single-hop-onion configs
