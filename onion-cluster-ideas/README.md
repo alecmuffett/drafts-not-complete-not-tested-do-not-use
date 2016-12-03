@@ -212,7 +212,7 @@ TBD. If you are reading this and know what `Direct Server Return Scaling` means,
   * 2+ introduction points = 1 daemons
   * mixture of the above
  
- ## How many Tor Daemons per machine?
+## How many Tor Daemons per machine?
  
 These machines won't be serving web traffic, so we're free to eat all the CPU and bus bandwidth for pushing packets out the door; otherwise it would be sane to leave some resources free.
  
