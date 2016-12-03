@@ -282,7 +282,7 @@ $ sh q
      6	C4y D4y E4y F4y A5y B5y C5y D5y E5y F5y
 ```
 
-This is much improved; again imagine that descriptors 1 and 4 get preferred over all others, then machines C/D/E/F will get proportionately more traffic than A and B, because in a given descriptor (eg: `a1 b1 c1 d1 e1 f1 a2 b2 c2 d2`) machines C/D/E/F each get two mentions, whereas A/B only get one mention.
+This is much improved; again imagine that descriptors 3 and 6 get preferred over all others, then machines C/D/E/F will get proportionately more traffic than A and B, because in a given descriptor (eg: `6	C4y D4y E4y F4y A5y B5y C5y D5y E5y F5y`) machines C/D/E/F each get two mentions, whereas A/B only get one mention.
 
 #### randomised descriptor layout
 
