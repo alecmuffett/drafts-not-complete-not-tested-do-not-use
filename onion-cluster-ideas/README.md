@@ -222,7 +222,9 @@ Obvious deployment strategies:
 * 5 daemons per machine = 1 daemon per core + 1 spare to prevent scheduler `stalls`
 * 8 daemons per machine = 2 daemons per core
 
-wild guess: for the moment let's go with the 5 daemons per machine, which sorta-guarantees CPU occupancy (0% idle) without necessarily thrashing; then we ramp up/down/stay-still as results warrant.
+#### Wild Guess Time
+
+For the moment let's go with the 5 daemons per machine, which sorta-guarantees CPU occupancy (0% idle) without necessarily thrashing; then we ramp up/down/stay-still as results warrant.
 
 This gives us 5 * 6 = 30 daemons.  How do we construct the six descriptors?
 
