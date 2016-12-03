@@ -347,3 +347,4 @@ $ sh q
      6	B5 H5 C5 I5 D5 J5 E5 K5 F5 L5
 ```
 
+**Problem with this:** if (say) IP[0] is systematically preferred, then all the traffic ends up on one cluster (A1/F1/E2/D3/C4/B5) - might be better to reverse ordering in alternate rows.  Actually, this problem afflicts the 'better' solution, above, too. 
