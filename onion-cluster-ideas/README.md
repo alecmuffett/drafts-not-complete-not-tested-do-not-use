@@ -84,7 +84,7 @@ nc -l 9000 < /dev/zero
 Then, on my Mac Mini, I did this:
 
 ```
-nc $RPI_ETHERNET_IP_ADDRESS 9000
+nc $RPI_ETHERNET_IP_ADDRESS 9000 > /dev/null
 ```
 
 ...and got I results:
