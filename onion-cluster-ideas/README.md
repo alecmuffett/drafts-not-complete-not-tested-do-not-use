@@ -108,6 +108,8 @@ The version of Tor made available to the Raspbian repo is woefully out of date
 
 So I created a directory called `~/src/tor` and there I built a fresh Tor.
 
+see [download-and-build-tor.sh](download-and-build-tor.sh)
+
 
 # Plans for Building a Cluster
 
