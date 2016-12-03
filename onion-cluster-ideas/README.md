@@ -228,7 +228,7 @@ For the moment let's go with the 5 daemons per machine, which sorta-guarantees C
 
 This gives us 5 * 6 = 30 daemons.  
 
-### How do we construct the six descriptors
+### How do we construct the six descriptors?
 
 We have to make 6 descriptors each containing 10 introduction points corresponding to our service.
 
