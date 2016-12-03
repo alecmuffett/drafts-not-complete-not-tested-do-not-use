@@ -326,7 +326,7 @@ Unless something clearly better arises, or some skew in descriptor-retreival bec
     * then rearchitect as N introduction points handing off to M callback servers
 
 
-#### hypothetical 24-machine descriptor layout
+#### hypothetical 12-machine 48-core descriptor layout
 
 ```
 $ cat q
