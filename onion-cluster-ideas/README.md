@@ -312,9 +312,9 @@ This is at the whim of the gods, but with random sorting the systematic hotspots
 
 ### Descriptor Layout Conclusion
 
-Unless something clearly better arises, or some skew in descriptor-retreival becomes apparent, let's go with the 'Better' non-random solution, above.
+See notes below re: 12-node, 48-core descriptors.
 
-
+Given the potential for attack if any systemisation is used, it's perhaps safest just to randomise the descriptors each and every time they are published, to hide the internal structure of the cluster.
 
 # Footnotes Todo
 
