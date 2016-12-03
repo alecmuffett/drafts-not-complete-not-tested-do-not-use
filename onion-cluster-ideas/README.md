@@ -319,6 +319,7 @@ Given the potential for attack if any systemisation is used, it's perhaps safest
 #### Possible Algorithm for OnionBalance configurations
 
 1. Where you choose to support `N` tor daemons, choose smallest integer `M` where `(N * M) > 60` 
+  * if `M > 10` then rethink what you are doing
 1. Configure each tor daemon to announce M introduction points
 1. Each time you publish an OB descriptor, scrape all `N * M` introduction points, sort randomly, choose the first 60
 1. Create 6x descriptors, each of 10 introduction points, and emplace them on the HSDir ring
