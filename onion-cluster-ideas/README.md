@@ -362,7 +362,7 @@ Given the potential for attack if any systemisation is used, it's perhaps safest
 - 1.2GHz 64-bit Quad-Core ARMv8 CPU @ $36 (AMZN USA)
 - 1gb RAM
 - 16gb Flash @ $9 (AMZN USA)
-- estimate $45 per device
+- estimate $45 per device - not including power, case...
 
 ## AWS t2.micro instance
 - 1x Xeon "vCPU"
