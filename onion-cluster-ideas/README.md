@@ -355,3 +355,22 @@ Given the potential for attack if any systemisation is used, it's perhaps safest
   * future/better
     * implement @TvdW's suggestion of hacking Tor daemon to hand-off requests received from the introduction point, to other machines in the cluster
     * then rearchitect as N introduction points handing off to M callback servers
+
+# Pricing Notes
+
+## RPi3b
+- 1.2GHz 64-bit Quad-Core ARMv8 CPU @ $36 (AMZN USA)
+- 1gb RAM
+- 16gb Flash @ $9 (AMZN USA)
+- estimate $45 per device
+
+## AWS t2.micro instance
+- 1x Xeon "vCPU"
+  - "performance equivalent to 20% of a CPU core"
+  - "burstable" additional performance at need
+- 1gb RAM
+- EBS (cloud) storage
+- 1 year upfront payment contract: $69
+  - https://aws.amazon.com/ec2/instance-types/
+  - https://aws.amazon.com/ec2/pricing/
+  
