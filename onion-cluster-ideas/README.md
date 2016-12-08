@@ -10,6 +10,13 @@
 - from a "single" Onion address
   - using OnionBalance
 
+# Status (updated as events warrant)
+
+## 2017/12/08
+* last bits of cluster hardware arrived. component testing and assy to be done.
+## 2017/12/02
+* start experimenting with Tor on RPi
+
 # Hardware
 
 Because of Tor's historically monolithic (albeit efficient) implementation, to do a maximum-outflow-bandwidth test we will need to use multiple daemons, ideally spread across multiple cores for parallelism / "horizontal scalability".
