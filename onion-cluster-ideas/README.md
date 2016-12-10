@@ -377,6 +377,10 @@ Given the potential for attack if any systemisation is used, it's perhaps safest
 
 See also: https://www.irisa.fr/caps/projects/hipsor/
 
+### Results
+
+Good advice. System entropy rose from ~700 to 1600..2200
+
 # Pricing Notes
 
 ## RPi3b
