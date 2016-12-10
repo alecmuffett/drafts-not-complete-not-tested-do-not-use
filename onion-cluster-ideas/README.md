@@ -375,7 +375,7 @@ Given the potential for attack if any systemisation is used, it's perhaps safest
 >Tip: follow your `cat /proc/sys/kernel/random/entropy_avail` and maybe
 >`apt-get install haveged`.
 
-
+See also: https://www.irisa.fr/caps/projects/hipsor/
 
 # Pricing Notes
 
