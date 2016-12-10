@@ -366,6 +366,17 @@ Given the potential for attack if any systemisation is used, it's perhaps safest
     * implement @TvdW's suggestion of hacking Tor daemon to hand-off requests received from the introduction point, to other machines in the cluster
     * then rearchitect as N introduction points handing off to M callback servers
 
+## Juha Nurmi warns against entropy starvation 
+
+>For instance, years ago I had some exit nodes and it took me several
+>days to figure out what was the bottleneck of the traffic. There were
+>plenty of CPU, RAM and bandwidth available but the entropy level of the
+>VM was close to zero. 
+>Tip: follow your `cat /proc/sys/kernel/random/entropy_avail` and maybe
+>`apt-get install haveged`.
+
+
+
 # Pricing Notes
 
 ## RPi3b
