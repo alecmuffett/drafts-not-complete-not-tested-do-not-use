@@ -377,6 +377,17 @@ Given the potential for attack if any systemisation is used, it's perhaps safest
 
 See also: https://www.irisa.fr/caps/projects/hipsor/
 
+
+## Brian Howson points out that the Pi has a HW RNG
+
+https://twitter.com/bkhowson/status/807618014136963072
+
+Leads to:
+
+- apt-get install rng_tools
+  - https://wiki.archlinux.org/index.php/Rng-tools
+
+
 ### Results
 
 Good advice. System entropy rose from ~700 to 1600..2200
