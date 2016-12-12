@@ -20,13 +20,20 @@
 
 ----
 
-# Hardware
+# Architecture
 
-Because of Tor's historically monolithic (albeit efficient) implementation, to do a maximum-outflow-bandwidth test we will need to use multiple daemons, ideally spread across multiple cores for parallelism / "horizontal scalability".
+Because of Tor's historically monolithic (albeit efficient)
+implementation, to do a maximum-outflow-bandwidth test we will need to
+use multiple daemons, ideally spread across multiple cores for
+parallelism / "horizontal scalability".
 
-Back at Facebook it was not a challenge to get hold of hardware, but from my own pocket I could pay for AWS/similar - however that would feel like cheating because AWS is "big infrastructure"; however everything I learn here can be applied to AWS as well.
 
-So: how about Raspberry Pi? 
+Back at Facebook it was not a challenge to get hold of hardware, but
+from my own pocket I could pay for AWS/similar - however that would
+feel like cheating because AWS is "big infrastructure"; however
+everything I learn here can be applied to AWS as well.
+
+So: how about Raspberry Pi?
 
 ## Raspberry Pi 3 model "B" (RPi / RPi3 for short)
 
@@ -39,19 +46,33 @@ So: how about Raspberry Pi?
 * 4x USB
 * bulk retail price: £28 each
 
-There is a culture of "clustering" RPi - do a [google search on "raspberry pi bramble"](https://www.google.co.uk/search?q=raspberry+pi+bramble).
+There is a culture of "clustering" RPi - do a
+[google search on "raspberry pi bramble"](https://www.google.co.uk/search?q=raspberry+pi+bramble).
 
-# What can 1x RPi do?
+## What is a "maximum-outflow-bandwidth test"?
 
-So I bought an RPi3, the "official full starter pack" including PSU, RPi, small case, memory card.
+"What's the most bitrate we can serve from a 'single' Onion address at one time?"
 
-After a lot of experimentation I determined that - as a developer - it's best to erase the memory card (hard-format it as a clean FAT filesystem) then drag-and-drop the "NOOBS" installer onto the card, and boot _that_. 
+## What can 1x RPi do?
 
-Frankly the alternative upgrade-path of doing `apt-get dist-upgrade` leaves the RPi in a messy state where some stuff does not work.
+So I bought an RPi3, the "official full starter pack" including PSU,
+RPi, small case, memory card.
 
-Also, I've taken some tips from http://www.zdnet.com/article/raspberry-pi-extending-the-life-of-the-sd-card/ and remounted some (but not all) of the suggested filesystems as `tmpfs` to save the card a little stress. 
+After a lot of experimentation I determined that - as a developer -
+it's best to erase the memory card (hard-format it as a clean FAT
+filesystem) then drag-and-drop the "NOOBS" installer onto the card,
+and boot _that_.
 
-More details on that to follow later, but for the record my `fstab` currently looks like this:
+Frankly the alternative upgrade-path of doing `apt-get dist-upgrade`
+leaves the RPi in a messy state where some stuff does not work.
+
+Also, I've taken some tips from
+http://www.zdnet.com/article/raspberry-pi-extending-the-life-of-the-sd-card/
+and remounted some (but not all) of the suggested filesystems as
+`tmpfs` to save the card a little stress.
+
+More details on that to follow later, but for the record my `fstab`
+currently looks like this:
 
 ```sh
 /dev/mmcblk0p7 / ext4 defaults,noatime 0 1
@@ -62,12 +83,12 @@ tmpfs /var/log tmpfs defaults,noatime,nosuid,mode=0755,size=100m 0 0
 tmpfs /var/tmp tmpfs defaults,noatime,nosuid,size=30m 0 0
 ```
 
-
 ## Basic RPi Testing
 
 ### Raw Network Bandwidth
 
-(Typing from memory, please forgive any bugs; also I have renamed some files when uploading them to GitHub, for clarity.)
+(Typing from memory, please forgive any bugs; also I have renamed some
+files when uploading them to GitHub, for clarity.)
 
 I connected the RPi to my network.
 
@@ -77,15 +98,16 @@ Then, I needed a network load-monitoring tool, so I got `ifstat`
 sudo aptitude install ifstat
 ```
 
-Then, on the RPi, in one window I did this to watch the network load: 
+Then, on the RPi, in one window I did this to watch the network load:
 
 ```
-ifstat -atbn 
+ifstat -atbn
 ```
 
 [see watch-network-traffic.sh](watch-network-traffic.sh)
 
-...and in another I did this, which creates a listener on port 9000 and feeds nul bytes into it:
+...and in another I did this, which creates a listener on port 9000
+and feeds nul bytes into it:
 
 ```
 nc -l 9000 < /dev/zero
@@ -108,24 +130,34 @@ nc $RPI_ETHERNET_IP_ADDRESS 9000 > /dev/null
 10:56:03      0.00      0.00      0.36  96879.86    442.58      0.00
 ```
 
-...showing that the Ethernet interface can happily pump about 96.8Mbits of data without too much stress. 
+...showing that the Ethernet interface can happily pump about
+96.8Mbits of data without too much stress.
 
 * CPU temperature rose from 39C to 48C over several minutes
 * Machine was 91% idle (~ 4.3% systime, < 1% usertime)
 
-A similar test for the Wifi interface showed that the RPi wifi interface can do about 45Mbits, but you probably don't want to do both at the same time, because CPU contention, not to mention overall weirdness of plumbing the eventual network.
+A similar test for the Wifi interface showed that the RPi wifi
+interface can do about 45Mbits, but you probably don't want to do both
+at the same time, because CPU contention, not to mention overall
+weirdness of plumbing the eventual network.
 
-Also, apparently the RPi3 Ethernet interface is a USB interface, ganged with the other 4x USB ports on that machine.  Therefore adding more network interfaces via USB is probably not the best direction to go.
+Also, apparently the RPi3 Ethernet interface is a USB interface,
+ganged with the other 4x USB ports on that machine.  Therefore adding
+more network interfaces via USB is probably not the best direction to
+go.
 
 # Basic Tor Testing
 
-The version of Tor made available to the Raspbian repo is woefully out of date
+The version of Tor made available to the Raspbian repo is woefully out
+of date
 
-So I created a directory called `~/src/tor` and there I built a fresh Tor.
+So I created a directory called `~/src/tor` and there I built a fresh
+Tor.
 
 See [download-and-build-tor.sh](download-and-build-tor.sh)
 
-Then I wrote a script to create up-to-10 separate Tor daemon hidden-service configurations, and to launch the daemons:
+Then I wrote a script to create up-to-10 separate Tor daemon
+hidden-service configurations, and to launch the daemons:
 
 See [polytunnel.sh](polytunnel.sh)
 
@@ -144,15 +176,20 @@ cached-certs                cached-microdescs      config    lock         state
 cached-microdesc-consensus  cached-microdescs.new  hostname  private_key
 ```
 
-I then wrote and ran a script to generate traffic for the hidden service.
+I then wrote and ran a script to generate traffic for the hidden
+service.
 
 See [start-senders.sh](start-senders.sh)
 
-Careful how you run/kill this. If it goes berzerk, you need to `killall start-senders.sh`
+Careful how you run/kill this. If it goes berzerk, you need to
+`killall start-senders.sh`
 
-Then I wrote and ran another script to tell me what to type, on my MacMini, to use my Mac's TorBrowserBundle to pull data from the senders.
+Then I wrote and ran another script to tell me what to type, on my
+MacMini, to use my Mac's TorBrowserBundle to pull data from the
+senders.
 
-See [generate-listener-commandlines.sh](generate-listener-commandlines.sh)
+See
+[generate-listener-commandlines.sh](generate-listener-commandlines.sh)
 
 When you run it, you see output like:
 
@@ -169,23 +206,31 @@ nc -X 5 -x localhost:9150 d3dcfbp6xbcjwp23.onion 9008 >/dev/null
 nc -X 5 -x localhost:9150 oxn5pvrfkazgig55.onion 9009 >/dev/null
 ```
 
-...which you can paste into different windows, one at a time, on another machine/machines, to make the Onions send data.
+...which you can paste into different windows, one at a time, on
+another machine/machines, to make the Onions send data.
 
-So, on another machine, I started using these commands.  
+So, on another machine, I started using these commands.
 
-Fairly rapidly the senders maxed-out my home DSL line: https://twitter.com/AlecMuffett/status/804856245446447108
+Fairly rapidly the senders maxed-out my home DSL line:
+https://twitter.com/AlecMuffett/status/804856245446447108
 
 18Mbps upstream, at 15% busy.
 
 # Plans for Building a Cluster
 
-Looking around the web, a credible RPi cluster typically has 6 nodes / 6 boards.
+Looking around the web, a credible RPi cluster typically has 6 nodes /
+6 boards.
 
-This makes sense, because you can build an 6-node cluster in a nice case (eg: https://www.amazon.co.uk/Mepro-Raspberry-6-layer-Enclosure-Support/dp/B01COU8Z1O/) and plug them into an 8-port 1Gbit (or 10Gbit) Switch.
+This makes sense, because you can build an 6-node cluster in a nice
+case (eg:
+https://www.amazon.co.uk/Mepro-Raspberry-6-layer-Enclosure-Support/dp/B01COU8Z1O/)
+and plug them into an 8-port 1Gbit (or 10Gbit) Switch.
 
-You would need an 8-port switch because: 6 for the RPis, 1 for "upstream" and 1 for (maybe) chaining to the _next_ cluster.
+You would need an 8-port switch because: 6 for the RPis, 1 for
+"upstream" and 1 for (maybe) chaining to the _next_ cluster.
 
-I think I will shoot for something like the one illustrated, but with added heatsinks and fans.
+I think I will shoot for something like the one illustrated, but with
+added heatsinks and fans.
 
 # Projected Output
 
@@ -195,17 +240,25 @@ Our target is 500Mbit. `500 / 18 = 27.777`.
 
 Round this up to "We need 28x more traffic, to beat our target.
 
-In a 6-Pi cluster, we're multiplying the CPU performance linearly, and: `28 / 6 = 4.667`
+In a 6-Pi cluster, we're multiplying the CPU performance linearly,
+and: `28 / 6 = 4.667`
 
-Therefore each Pi will need to do 4.667x (round this up to 5x) more work.
+Therefore each Pi will need to do 4.667x (round this up to 5x) more
+work.
 
-5x more work * 15% current load = 75% target load, which does not seem unreasonable, though cooling will be an issue.
+5x more work * 15% current load = 75% target load, which does not seem
+unreasonable, though cooling will be an issue.
 
-Also: 6x RPi at 96.8Mbit = 580.8Mbit hardware bandwidth cap, so that also seems achievable so long as we choose a zero-contention switch for use as a core interconnect.
+Also: 6x RPi at 96.8Mbit = 580.8Mbit hardware bandwidth cap, so that
+also seems achievable so long as we choose a zero-contention switch
+for use as a core interconnect.
 
 # Tor Deployment Architecture
 
-TBD. If you are reading this and know what `Direct Server Return Scaling` means, you'll have a fair idea of where I am going with this. OnionBalance gives you something similar to DSR, but this will have a slight Tor twist.
+TBD. If you are reading this and know what `Direct Server Return
+Scaling` means, you'll have a fair idea of where I am going with
+this. OnionBalance gives you something similar to DSR, but this will
+have a slight Tor twist.
 
 ## Notes to fill-in later
 
@@ -221,192 +274,3 @@ TBD. If you are reading this and know what `Direct Server Return Scaling` means,
   * 1 introduction point = 1 daemon
   * 2+ introduction points = 1 daemons
   * mixture of the above
- 
-## How many Tor Daemons per machine?
- 
-These machines won't be serving web traffic, so we're free to eat all the CPU and bus bandwidth for pushing packets out the door; otherwise it would be sane to leave some resources free.
- 
-Obvious deployment strategies:
-
-* 4 daemons per machine = 1 daemon per core
-* 5 daemons per machine = 1 daemon per core + 1 spare to prevent scheduler "stalls"
-* 8 daemons per machine = 2 daemons per core
-
-#### Wild Guess Time
-
-For the moment let's go with the 5 daemons per machine, which sorta-guarantees CPU occupancy (0% idle) without necessarily thrashing; then we ramp up/down/stay-still as results warrant.
-
-This gives us 5 * 6 = 30 daemons.  
-
-### How do we construct the six descriptors?
-
-We have to make 6 descriptors each containing 10 introduction points corresponding to our service.
-
-That's 60 introduction points, so we should construct our individual daemons to create two introduction points apiece; we could do one introduction point per daemon and repeat that data twice, but that's a potential choke on access to one of our daemons.
-
-For each daemon, name its two introduction points as `x` and `y`; they is no reason obvious to me to worry about preferring one over the other for any given daemon.
-
-#### naive descriptor layout
-
-```
-#!/bin/sh
-for intro in x y ; do
-    for machine in A B C D E F ; do
-        for daemon in 1 2 3 4 5 ; do
-            echo $machine$daemon$intro
-        done
-    done
-done |
-    awk '{ printf("%s ", $1)} NR%10==0 {print "" }' |
-    cat -n
-$ sh q
-     1	A1x A2x A3x A4x A5x B1x B2x B3x B4x B5x
-     2	C1x C2x C3x C4x C5x D1x D2x D3x D4x D5x
-     3	E1x E2x E3x E4x E5x F1x F2x F3x F4x F5x
-     4	A1y A2y A3y A4y A5y B1y B2y B3y B4y B5y
-     5	C1y C2y C3y C4y C5y D1y D2y D3y D4y D5y
-     6	E1y E2y E3y E4y E5y F1y F2y F3y F4y F5y
-```
-
-This is a bad descriptor layout; if (say) descriptors 1 and 4 get preferred over all others, then machines A and B will be burning CPU and the other four machines will be idle.
-
-#### better descriptor layout
-
-```
-#!/bin/sh
-for intro in x y ; do
-    for daemon in 1 2 3 4 5 ; do
-        for machine in A B C D E F ; do
-            echo $machine$daemon$intro
-        done
-    done
-done |
-    awk '{ printf("%s ", $1)} NR%10==0 {print "" }' |
-    cat -n
-$ sh q
-     1	A1x B1x C1x D1x E1x F1x A2x B2x C2x D2x
-     2	E2x F2x A3x B3x C3x D3x E3x F3x A4x B4x
-     3	C4x D4x E4x F4x A5x B5x C5x D5x E5x F5x
-     4	A1y B1y C1y D1y E1y F1y A2y B2y C2y D2y
-     5	E2y F2y A3y B3y C3y D3y E3y F3y A4y B4y
-     6	C4y D4y E4y F4y A5y B5y C5y D5y E5y F5y
-```
-
-This is much improved; again imagine that descriptors 3 and 6 get preferred over all others, then machines C/D/E/F will get proportionately more traffic than A and B, because in a given descriptor (eg: `6	C4y D4y E4y F4y A5y B5y C5y D5y E5y F5y`) machines C/D/E/F each get two mentions, whereas A/B only get one mention.
-
-#### randomised descriptor layout
-
-```
-$ cat q
-#!/bin/sh
-for intro in x y ; do
-    for daemon in 1 2 3 4 5 ; do
-        for machine in A B C D E F ; do
-            echo $machine$daemon$intro
-        done
-    done
-done |
-    randsort |
-    awk '{ printf("%s ", $1)} NR%10==0 {print "" }' |
-    cat -n
-$ sh q
-     1	A3x C1x C1y F5x D5x D2x B4x B4y D3x E1x
-     2	A2y F1y F2y A1x A4y F4x F4y C3y E3y D3y
-     3	F3x B1x D2y C3x E4y C4y E5y F2x C4x A5y
-     4	C5x C2x D5y F5y E2y A3y C2y B5y D4y B3x
-     5	E5x E1y F1x A5x B5x A1y B3y E2x F3y A4x
-     6	D4x D1x E4x D1y B2y E3x A2x B2x B1y C5y
-```
-
-This is at the whim of the gods, but with random sorting the systematic hotspots are now random hotspots
-
-#### hypothetical 12-machine 48-core descriptor layout
-
-```
-$ cat q
-#!/bin/sh
-for daemon in 1 2 3 4 5 ; do
-    for machine in A G B H C I D J E K F L ; do
-        echo $machine$daemon
-    done
-done |
-    awk '{ printf("%s ", $1)} NR%10==0 {print "" }' |
-    cat -n
-$ sh q
-     1	A1 G1 B1 H1 C1 I1 D1 J1 E1 K1
-     2	F1 L1 A2 G2 B2 H2 C2 I2 D2 J2
-     3	E2 K2 F2 L2 A3 G3 B3 H3 C3 I3
-     4	D3 J3 E3 K3 F3 L3 A4 G4 B4 H4
-     5	C4 I4 D4 J4 E4 K4 F4 L4 A5 G5
-     6	B5 H5 C5 I5 D5 J5 E5 K5 F5 L5
-```
-**Problem with this:** if (say) IP[0] is systematically preferred, then all the traffic ends up on one cluster (A1/F1/E2/D3/C4/B5) - might be better to reverse ordering in alternate rows. This problem also afflicts the 'better' solution, above, too. 
-
-
-### Descriptor Layout Conclusion
-
-See notes below re: 12-node, 48-core descriptors.
-
-Given the potential for attack if any systemisation is used, it's perhaps safest just to randomise the descriptors each and every time they are published, to hide the internal structure of the cluster.
-
-#### Possible Algorithm for OnionBalance configurations
-
-1. Where you choose to support `N` tor daemons, choose smallest integer `M` where `(N * M) > 60` 
-  * if `M > 10` then rethink what you are doing
-1. Configure each tor daemon to announce M introduction points
-1. Each time you publish an OB descriptor, scrape all `N * M` introduction points, sort randomly, choose the first 60
-1. Create 6x descriptors, each of 10 introduction points, and emplace them on the HSDir ring
-
-# Footnotes Todo
-
-* plan to do the test both with, and without, single-hop-onion configs
-* future scaling:
-  * add a second cluster (machines G/H/I/J/K/L) and use them to replace the `y` introduction points
-  * future/better
-    * implement @TvdW's suggestion of hacking Tor daemon to hand-off requests received from the introduction point, to other machines in the cluster
-    * then rearchitect as N introduction points handing off to M callback servers
-
-## Juha Nurmi warns against entropy starvation 
-
->For instance, years ago I had some exit nodes and it took me several
->days to figure out what was the bottleneck of the traffic. There were
->plenty of CPU, RAM and bandwidth available but the entropy level of the
->VM was close to zero. 
->Tip: follow your `cat /proc/sys/kernel/random/entropy_avail` and maybe
->`apt-get install haveged`.
-
-See also: https://www.irisa.fr/caps/projects/hipsor/
-
-
-## Brian Howson points out that the Pi has a HW RNG
-
-https://twitter.com/bkhowson/status/807618014136963072
-
-Leads to:
-
-- apt-get install rng_tools
-  - https://wiki.archlinux.org/index.php/Rng-tools
-
-
-### Results
-
-Good advice. System entropy rose from ~700 to 1600..2200
-
-# Pricing Notes
-
-## RPi3b
-- 1.2GHz 64-bit Quad-Core ARMv8 CPU @ $36 (AMZN USA)
-- 1gb RAM
-- 16gb Flash @ $9 (AMZN USA)
-- estimate $45 per device - not including power, case...
-
-## AWS t2.micro instance
-- 1x Xeon "vCPU"
-  - "performance equivalent to 20% of a CPU core"
-  - "burstable" additional performance at need
-- 1gb RAM
-- EBS (cloud) storage
-- 1 year upfront payment contract: $69
-  - https://aws.amazon.com/ec2/instance-types/
-  - https://aws.amazon.com/ec2/pricing/
-  
