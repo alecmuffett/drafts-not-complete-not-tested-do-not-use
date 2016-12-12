@@ -38,3 +38,11 @@ _is_ a bad idea.
 
 Result was good: system entropy rose from typical ~700 to a range of
 1600..2200
+
+# License
+
+All documentation content (including example code fragments) under
+https://github.com/alecmuffett/drafts-not-complete-not-tested-do-not-use/
+is made available by the author under the terms of the Creative
+Commons Attribution Share Alike 4.0 License - see
+http://choosealicense.com/licenses/cc-by-sa-4.0/ for details.

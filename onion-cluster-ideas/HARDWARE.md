@@ -122,3 +122,11 @@ As-listed, in USD.
 - 1 year upfront payment contract: $69
   - https://aws.amazon.com/ec2/instance-types/
   - https://aws.amazon.com/ec2/pricing/
+
+# License
+
+All documentation content (including example code fragments) under
+https://github.com/alecmuffett/drafts-not-complete-not-tested-do-not-use/
+is made available by the author under the terms of the Creative
+Commons Attribution Share Alike 4.0 License - see
+http://choosealicense.com/licenses/cc-by-sa-4.0/ for details.

@@ -274,3 +274,11 @@ have a slight Tor twist.
   * 1 introduction point = 1 daemon
   * 2+ introduction points = 1 daemons
   * mixture of the above
+
+# License
+
+All documentation content (including example code fragments) under
+https://github.com/alecmuffett/drafts-not-complete-not-tested-do-not-use/
+is made available by the author under the terms of the Creative
+Commons Attribution Share Alike 4.0 License - see
+http://choosealicense.com/licenses/cc-by-sa-4.0/ for details.
