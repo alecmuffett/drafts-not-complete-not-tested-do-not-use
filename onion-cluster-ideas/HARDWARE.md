@@ -5,7 +5,7 @@ All prices in GBP, rounded up, inc tax
 - 192 = 6x RPi3b @ 32
 - 58 = 2x Anker PowerPort 6 (60W) inc [6-Pack] Premium 1ft Micro USB Cables @ 29
 - 54 = 6x SanDisk Extreme 16 GB microSDHC Class 10 Memory Card
-- 27 = 1x Mepro Raspberry Pi 3 Model B 6-layer Stack Clear Case
+- 27 = 1x Mepro Raspberry Pi 3 Model B 6-layer Stack Clear Case (design: "Eleduino")
 - 20 = 1x NETGEAR GS308-100UKS 8 Port Gigabit Ethernet Switch
 - 14 = 1x AC Infinity MULTIFAN S5, Quiet Dual 80mm USB Fan
 - 10 = 1x 10-Pack 0.3m Meters Cat6 Ethernet Cable
