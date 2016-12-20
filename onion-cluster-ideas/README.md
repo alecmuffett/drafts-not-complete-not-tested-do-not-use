@@ -12,10 +12,10 @@
 
 # Status (updated as events warrant)
 
-## 2017/12/08
+## 2016/12/08
 * last bits of cluster hardware arrived. component testing and assy to be done.
 
-## 2017/12/02
+## 2016/12/02
 * start experimenting with Tor on RPi
 
 ----
