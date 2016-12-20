@@ -13,6 +13,11 @@
 # Status (updated as events warrant)
 
 ## 2016/12/20
+* have also purchased 1x USB3.0 GBE ethernet adapter
+  - Anker RTL8153 
+  - https://www.amazon.co.uk/gp/product/B00PC0P2DI/
+  - will test on cluster controller (sun-barr) re: maximum possible throughput of an RPi
+    - 300+Mbps would be nice, close to onboard USB2 limits
 * cluster built as 6x basic Debian (Raspbian) machines
 * Hardware: Pretty. Have fitted small heatsinks. With "medium" fans, temps are stable in range 49-56C
   - https://twitter.com/AlecMuffett/status/810157179105935360
