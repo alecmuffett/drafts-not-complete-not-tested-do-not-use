@@ -26,7 +26,8 @@
 * Tor Daemons: some daemons showing stale HSDir entries, this is unacceptable because performance. Triaging.
 
 ### tor-talk submissions:
-* Overview of project: https://lists.torproject.org/pipermail/tor-talk/2016-December/042724.html
+* Overview of project
+  - https://lists.torproject.org/pipermail/tor-talk/2016-December/042724.html
 * **Horcrux:** 
   - 'unkillable' onion service concept
   - https://lists.torproject.org/pipermail/tor-talk/2016-December/042746.html
