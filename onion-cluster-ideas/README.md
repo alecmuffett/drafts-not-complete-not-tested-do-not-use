@@ -12,6 +12,17 @@
 
 # Status (updated as events warrant)
 
+## 2016/12/20
+* cluster built as 6x basic Debian (Raspbian) machines
+* Hardware: Pretty. Have fitted small heatsinks. With "medium" fans, temps are stable in range 49-56C
+* System: Running 72x Tor daemons + 24 Shallot Miners as a stress test
+* Onion Balance: some software weirdnesses / bug fixing, work in progress
+* Tor Daemons: some daemons showing stale HSDir entries, this is unacceptable because performance. Triaging.
+
+### tor-talk submissions:
+* Overview of project: https://lists.torproject.org/pipermail/tor-talk/2016-December/042724.html
+* *Horcrux:* - 'unkillable' onion service concept: https://lists.torproject.org/pipermail/tor-talk/2016-December/042746.html
+
 ## 2016/12/08
 * last bits of cluster hardware arrived. component testing and assy to be done.
 
